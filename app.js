@@ -32,16 +32,16 @@ io.on('connection', (socket) => {
         const { user, ip } = data;
 
         try {
-            // Check if the entry already exists for the user and IP
-            const existingEntryIndex = ipStatusData.findIndex(entry => entry.user === user && entry.ip === ip);
+            // Check if the entry already exists for the user
+            const existingEntryIndex = ipStatusData.findIndex(entry => entry.user === user);
 
             if (existingEntryIndex !== -1) {
                 // Entry already exists, update it
+                console.log(`Entry already exists for user ${user}, updating...`);
                 ipStatusData[existingEntryIndex].timestamp = Date.now();
-                // Optionally, update the IP address and status if needed
-                // ipStatusData[existingEntryIndex].ip = data.newIp || ipStatusData[existingEntryIndex].ip;
-                // ipStatusData[existingEntryIndex].status = await checkUptime(ipStatusData[existingEntryIndex].ip);
-
+                ipStatusData[existingEntryIndex].ip = data.ip;
+                // Update the status based on the new IP
+                ipStatusData[existingEntryIndex].status = await checkUptime(ipStatusData[existingEntryIndex].ip);
             } else {
                 // Entry doesn't exist, add it with an initial status
                 const status = await checkUptime(ip);
