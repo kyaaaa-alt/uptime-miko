@@ -34,9 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Sort the data array based on status (down first)
         data.sort((a, b) => {
-            if (a.status === 'down' && b.status !== 'down') {
+            if (a.status === 'DOWN' && b.status !== 'DOWN') {
                 return -1;
-            } else if (a.status !== 'down' && b.status === 'down') {
+            } else if (a.status !== 'DOWN' && b.status === 'DOWN') {
                 return 1;
             } else {
                 return 0;
