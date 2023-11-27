@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const userForm = document.getElementById('userForm');
     const usernameInput = document.getElementById('username');
     const ipAddressInput = document.getElementById('ipAddress');
+    const submitButton = document.getElementById('submitButton'); // Added submit button element
+    const loader = document.getElementById('loader'); // Added loader element
 
     const socket = io();
 
@@ -14,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Listen for 'ipStatus' events from the server
     socket.on('ipStatus', (data) => {
         updateIpList(data);
+        hideLoader(); // Hide loader when data is updated
+        enableSubmitButton(); // Enable the submit button
+        $('#userModal').modal('hide'); // Close the modal after the process is complete
     });
 
     // Function to update the IP list on the frontend
@@ -53,21 +58,41 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Handle form submission
-    userForm.addEventListener('submit', (event) => {
+    userForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
         const username = usernameInput.value.trim();
         const ipAddress = ipAddressInput.value.trim();
 
         if (username && ipAddress) {
+            // Show loader and disable submit button while processing
+            showLoader();
+            disableSubmitButton();
+
             // Emit the form data to the server
             socket.emit('modifyDatabase', { user: username, ip: ipAddress });
-
-            // Clear the form inputs
-            usernameInput.value = '';
-            ipAddressInput.value = '';
         } else {
             alert('Please fill in both fields.');
         }
     });
+
+    // Function to show the loader and disable the submit button
+    function showLoader() {
+        loader.style.display = 'inline-block';
+    }
+
+    // Function to hide the loader
+    function hideLoader() {
+        loader.style.display = 'none';
+    }
+
+    // Function to disable the submit button
+    function disableSubmitButton() {
+        submitButton.setAttribute('disabled', 'true');
+    }
+
+    // Function to enable the submit button
+    function enableSubmitButton() {
+        submitButton.removeAttribute('disabled');
+    }
 });
