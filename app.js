@@ -3,6 +3,7 @@ const http = require('http');
 const socketIO = require('socket.io');
 const ping = require('ping');
 const fs = require('fs');
+const {response} = require("express");
 
 const app = express();
 const server = http.createServer(app);
@@ -29,7 +30,7 @@ io.on('connection', (socket) => {
     socket.on('modifyDatabase', async (data) => {
         console.log('Received form data:', data);
 
-        const { user, ip } = data;
+        const { user, ip, service, status, phone, callerid, lastlogout, lastdisconnectreason, lastcallerid, address, timestamp } = data;
 
         try {
             // Check if the entry already exists for the user
@@ -38,14 +39,37 @@ io.on('connection', (socket) => {
             if (existingEntryIndex !== -1) {
                 // Entry already exists, update it
                 console.log(`Entry already exists for user ${user}, updating...`);
-                ipStatusData[existingEntryIndex].timestamp = Date.now();
-                ipStatusData[existingEntryIndex].ip = data.ip;
+                ipStatusData[existingEntryIndex] = {
+                    user,
+                    ip,
+                    service,
+                    status,
+                    phone,
+                    callerid,
+                    lastlogout,
+                    lastdisconnectreason,
+                    lastcallerid,
+                    address,
+                    timestamp: Date.now(),
+                };
                 // Update the status based on the new IP
                 ipStatusData[existingEntryIndex].status = await checkUptime(ipStatusData[existingEntryIndex].ip);
             } else {
                 // Entry doesn't exist, add it with an initial status
                 const status = await checkUptime(ip);
-                ipStatusData.push({ user, ip, status, timestamp: Date.now() });
+                ipStatusData.push({
+                    user,
+                    ip,
+                    service,
+                    status,
+                    phone,
+                    callerid,
+                    lastlogout,
+                    lastdisconnectreason,
+                    lastcallerid,
+                    address,
+                    timestamp: Date.now(),
+                });
             }
 
             // Save the data to the file
@@ -61,34 +85,44 @@ io.on('connection', (socket) => {
 
 const checkUptime = async (ip) => {
     try {
-        const result = await ping.promise.probe(ip, { timeout: 4000, min_reply: 4 });
-        console.log(`Uptime for ${ip}:`, result);
-        return result.alive ? 'up' : 'down';
+        const result = await ping.promise.probe(ip, { timeout: 1500, min_reply: 3 });
+        return result.avg;
     } catch (error) {
         console.error(`Error checking uptime for ${ip}:`, error);
-        return 'down'; // Assume the status is down if there is an error
+        return 'DOWN'; // Assume the status is down if there is an error
     }
 };
 
 const checkAndEmitUptime = async () => {
     try {
-        for (const entry of ipStatusData) {
-            const { user, ip } = entry;
-            const status = await checkUptime(ip);
+        // Use Promise.all to execute all checkUptime calls in parallel
+        const results = await Promise.all(
+            ipStatusData.map(async (entry) => {
+                const { user, ip } = entry;
+                try {
+                    const status = await checkUptime(ip);
+                    return { user, status };
+                } catch (error) {
+                    console.error(`Error checking uptime for ${user}:`, error);
+                    // Return a placeholder value or handle the error as needed
+                    return { user, status: 'ERROR' };
+                }
+            })
+        );
 
-            // Update ipStatusData
-            const entryIndex = ipStatusData.findIndex(e => e.user === user && e.ip === ip);
+        // Update ipStatusData based on the results
+        for (const result of results) {
+            const { user, status } = result;
+            const entryIndex = ipStatusData.findIndex((e) => e.user === user);
             if (entryIndex !== -1) {
                 ipStatusData[entryIndex].status = status;
                 ipStatusData[entryIndex].timestamp = Date.now();
             } else {
-                console.error(`Entry not found for user ${user} and IP ${ip}`);
+                console.error(`Entry not found for user ${user}`);
             }
         }
-
         // Emit the result to the connected clients
         io.emit('ipStatus', ipStatusData);
-
         // Save the data to the file
         saveDataToFile(ipStatusData);
     } catch (error) {
@@ -97,7 +131,7 @@ const checkAndEmitUptime = async () => {
 };
 
 // Implement logic for checking and emitting IP uptime status
-checkAndEmitUptime();
+setInterval(checkAndEmitUptime, 20000);
 
 const PORT = process.env.PORT || 3000;
 
@@ -121,6 +155,7 @@ function readDataFile() {
 function saveDataToFile(data) {
     try {
         fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), 'utf8');
+        console.log('Data saved to file');
     } catch (error) {
         console.error('Error saving data to file:', error);
     }

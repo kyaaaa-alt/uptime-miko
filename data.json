@@ -1,26 +1,41 @@
 [
   {
     "user": "admin",
+    "ip": "192.168.1.5",
+    "service": "Static",
+    "status": "35.000",
+    "phone": "085867540075",
+    "callerid": "-",
+    "lastlogout": "-",
+    "lastdisconnectreason": "-",
+    "lastcallerid": "-",
+    "address": "asdasd",
+    "timestamp": 1701100658893
+  },
+  {
+    "user": "stb",
     "ip": "192.168.1.252",
-    "status": "up",
-    "timestamp": 1701085442707
-  },
-  {
-    "user": "naufalazkia",
-    "ip": "192.168.1.211",
-    "status": "down",
-    "timestamp": 1701085452895
-  },
-  {
-    "user": "aku",
-    "ip": "192.168.1.253",
-    "status": "up",
-    "timestamp": 1701085455946
+    "service": "Static",
+    "status": "unknown",
+    "phone": "085867540075",
+    "callerid": "-",
+    "lastlogout": "-",
+    "lastdisconnectreason": "-",
+    "lastcallerid": "-",
+    "address": "aaaa",
+    "timestamp": 1701100658893
   },
   {
     "user": "sultankhilove",
-    "ip": "192.168.1.254",
-    "status": "up",
-    "timestamp": 1701085458991
+    "ip": "8.8.8.8",
+    "service": "DNS",
+    "status": "20.000",
+    "phone": "6281222079788",
+    "callerid": "-",
+    "lastlogout": "-",
+    "lastdisconnectreason": "-",
+    "lastcallerid": "-",
+    "address": "aaaa",
+    "timestamp": 1701100658893
   }
 ]

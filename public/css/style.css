@@ -1,0 +1,21 @@
+body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+}
+
+.container {
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 720px !important;
+    margin: 0 auto !important;
+    margin-top: 10px !important;
+}
+
+.green-card {
+    border-left: 7px solid #198754;
+}
+
+.red-card {
+    border-left: 7px solid #dc3545;
+}

@@ -3,6 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const userForm = document.getElementById('userForm');
     const usernameInput = document.getElementById('username');
     const ipAddressInput = document.getElementById('ipAddress');
+    const phoneInput = document.getElementById('phone');
+    const serviceInput = document.getElementById('service');
+    const calleridInput = document.getElementById('callerid');
+    const lastlogoutInput = document.getElementById('lastlogout');
+    const lastdisconnectreasonInput = document.getElementById('lastdisconnectreason');
+    const lastcalleridInput = document.getElementById('lastcallerid');
+    const addressInput = document.getElementById('address');
     const submitButton = document.getElementById('submitButton'); // Added submit button element
     const loader = document.getElementById('loader'); // Added loader element
 
@@ -39,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         data.forEach(({ user, ip, status }) => {
             // Create a new card
             const card = document.createElement('div');
-            card.className = `card mb-2 ${status === 'up' ? 'green-card' : 'red-card'}`;
+            card.className = `card mb-2 ${status !== 'unknown' ? 'green-card' : 'red-card'}`;
 
             const cardBody = document.createElement('div');
             cardBody.className = 'card-body';
@@ -47,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const content = document.createElement('div');
             content.className = 'd-flex justify-content-between align-items-center';
             content.innerHTML = `<span><strong>${user}</strong> (${ip})</span>
-                             <span class="badge rounded-pill text-bg-${status === 'up' ? 'success' : 'danger'}">${status.toUpperCase()}</span>`;
+            <span class="badge rounded-pill text-bg-${status !== 'unknown' ? 'success' : 'danger'}">${status !== 'unknown' ? convertToMilliseconds(status) : 'DOWN'}</span>`;
 
             cardBody.appendChild(content);
             card.appendChild(cardBody);
@@ -63,6 +70,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const username = usernameInput.value.trim();
         const ipAddress = ipAddressInput.value.trim();
+        const service = serviceInput.value.trim() || '-';
+        const phone = phoneInput.value.trim() || '-';
+        const callerid = calleridInput.value.trim() || '-';
+        const lastlogout = lastlogoutInput.value.trim() || '-';
+        const lastdisconnectreason = lastdisconnectreasonInput.value.trim() || '-';
+        const lastcallerid = lastcalleridInput.value.trim() || '-';
+        const address = addressInput.value.trim() || '-';
 
         if (username && ipAddress) {
             // Show loader and disable submit button while processing
@@ -70,9 +84,19 @@ document.addEventListener('DOMContentLoaded', () => {
             disableSubmitButton();
 
             // Emit the form data to the server
-            socket.emit('modifyDatabase', { user: username, ip: ipAddress });
+            socket.emit('modifyDatabase', {
+                user: username,
+                ip: ipAddress,
+                service,
+                phone,
+                callerid,
+                lastlogout,
+                lastdisconnectreason,
+                lastcallerid,
+                address,
+            });
         } else {
-            alert('Please fill in both fields.');
+            alert('Please fill in all required fields.');
         }
     });
 
@@ -94,5 +118,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to enable the submit button
     function enableSubmitButton() {
         submitButton.removeAttribute('disabled');
+    }
+
+    function convertToMilliseconds(value) {
+        // Parse the value as a floating-point number
+        const floatValue = parseFloat(value);
+
+        // Check if the parsed value is a number and not NaN
+        if (!isNaN(floatValue)) {
+            // Check if the value is greater than or equal to 1, convert it to integer
+            if (floatValue >= 1) {
+                return Math.round(floatValue) + 'ms';
+            } else {
+                // For values less than 1 or equal to 0, return '1ms'
+                return '1ms';
+            }
+        } else {
+            // If the value is not a valid number, return the original value
+            return value;
+        }
     }
 });
