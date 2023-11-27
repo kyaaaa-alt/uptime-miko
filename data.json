@@ -1,0 +1,14 @@
+[
+  {
+    "user": "System",
+    "ip": "192.168.1.254",
+    "status": "up",
+    "timestamp": 1701061872503
+  },
+  {
+    "user": "admin",
+    "ip": "192.168.1.253",
+    "status": "up",
+    "timestamp": 1701061872528
+  }
+]
