@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         data.forEach(({ user, ip, status }) => {
             // Create a new card
             const card = document.createElement('div');
-            card.className = `card mb-2 ${status !== 'unknown' ? 'green-card' : 'red-card'}`;
+            card.className = `card mb-2 ${status !== 'DOWN' ? 'green-card' : 'red-card'}`;
 
             const cardBody = document.createElement('div');
             cardBody.className = 'card-body';
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const content = document.createElement('div');
             content.className = 'd-flex justify-content-between align-items-center';
             content.innerHTML = `<span><strong>${user}</strong> (${ip})</span>
-            <span class="badge rounded-pill text-bg-${status !== 'unknown' ? 'success' : 'danger'}">${status !== 'unknown' ? convertToMilliseconds(status) : 'DOWN'}</span>`;
+            <span class="badge rounded-pill text-bg-${status !== 'DOWN' ? 'success' : 'danger'}">${status !== 'DOWN' || status !== 'DOWN'  ? convertToMilliseconds(status) : 'DOWN'}</span>`;
 
             cardBody.appendChild(content);
             card.appendChild(cardBody);
