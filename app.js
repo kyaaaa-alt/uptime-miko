@@ -62,6 +62,7 @@ io.on('connection', (socket) => {
 const checkUptime = async (ip) => {
     try {
         const result = await ping.promise.probe(ip, { timeout: 5000 });
+        console.log(`Uptime for ${ip}:`, result);
         return result.alive ? 'up' : 'down';
     } catch (error) {
         console.error(`Error checking uptime for ${ip}:`, error);

@@ -20,14 +20,35 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateIpList(data) {
         ipList.innerHTML = ''; // Clear the list before updating
 
-        data.forEach(({ user, ip, status }) => {
-            // Create a new list item
-            const listItem = document.createElement('li');
-            listItem.className = 'list-group-item';
-            listItem.innerHTML = `${user} - ${ip}: ${status}`;
+        // Sort the data array based on status (down first)
+        data.sort((a, b) => {
+            if (a.status === 'down' && b.status !== 'down') {
+                return -1;
+            } else if (a.status !== 'down' && b.status === 'down') {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
 
-            // Add the new item to the list
-            ipList.appendChild(listItem);
+        data.forEach(({ user, ip, status }) => {
+            // Create a new card
+            const card = document.createElement('div');
+            card.className = `card mb-2 ${status === 'up' ? 'green-card' : 'red-card'}`;
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+
+            const content = document.createElement('div');
+            content.className = 'd-flex justify-content-between align-items-center';
+            content.innerHTML = `<span><strong>${user}</strong> (${ip})</span>
+                             <span class="badge rounded-pill text-bg-${status === 'up' ? 'success' : 'danger'}">${status.toUpperCase()}</span>`;
+
+            cardBody.appendChild(content);
+            card.appendChild(cardBody);
+
+            // Add the new card to the list
+            ipList.appendChild(card);
         });
     }
 
