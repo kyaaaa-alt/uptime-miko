@@ -1,0 +1,30 @@
+# Assuming you want to run this script periodically or on a specific trigger
+:local username "$user";
+:local ipAddress [/ppp active get [find name=$user] address];
+:local service [/ppp active get [find name=$user] service];
+:local phone "-";
+:local callerid [/ppp active get [find name=$user] caller-id];
+:local lastlogout [/ppp secret get [find name=$user] last-logged-out];
+:local lastdisconnectreason [/ppp secret get [find name=$user] last-disconnect-reason];
+:local lastcallerid [/ppp secret get [find name=$user] last-caller-id];
+:local address "-";
+
+:local url ("https://3000.nauf.biz.id/api/updateUserData");
+
+/tool fetch url=$url mode=http http-method=post http-data=("user=" . $username . "&ip=" . $ipAddress . "&service=" . $service . "&phone=" . $phone . "&callerid=" . $callerid . "&lastlogout=" . $lastlogout . "&lastdisconnectreason=" . $lastdisconnectreason . "&lastcallerid=" . $lastcallerid . "&address=" . $address) http-header="Content-Type: application/x-www-form-urlencoded" dst-path=("updateUserData_" . [:pick $username 0 10] . ".log") keep-result=no;
+  
+  
+  # logout
+:local username "$user";
+:local ipAddress [/ppp active get [find name=$user] address];
+:local service [/ppp secret get [find name=$user] service];
+:local phone "-";
+:local callerid "-";
+:local lastlogout [/ppp secret get [find name=$user] last-logged-out];
+:local lastdisconnectreason [/ppp secret get [find name=$user] last-disconnect-reason];
+:local lastcallerid [/ppp secret get [find name=$user] last-caller-id];
+:local address "-";
+
+:local url ("https://3000.nauf.biz.id/api/updateUserData");
+
+/tool fetch url=$url mode=http http-method=post http-data=("user=" . $username . "&ip=" . $ipAddress . "&service=" . $service . "&phone=" . $phone . "&callerid=" . $callerid . "&lastlogout=" . $lastlogout . "&lastdisconnectreason=" . $lastdisconnectreason . "&lastcallerid=" . $lastcallerid . "&address=" . $address) http-header="Content-Type: application/x-www-form-urlencoded" dst-path=("updateUserData_" . [:pick $username 0 10] . ".log") keep-result=no;
