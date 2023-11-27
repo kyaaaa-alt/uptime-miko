@@ -61,7 +61,7 @@ io.on('connection', (socket) => {
 
 const checkUptime = async (ip) => {
     try {
-        const result = await ping.promise.probe(ip, { timeout: 5000 });
+        const result = await ping.promise.probe(ip, { timeout: 4000, min_reply: 4 });
         console.log(`Uptime for ${ip}:`, result);
         return result.alive ? 'up' : 'down';
     } catch (error) {
@@ -97,7 +97,7 @@ const checkAndEmitUptime = async () => {
 };
 
 // Implement logic for checking and emitting IP uptime status
-setInterval(checkAndEmitUptime, 10000); // Repeat every 10 seconds
+checkAndEmitUptime();
 
 const PORT = process.env.PORT || 3000;
 
