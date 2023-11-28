@@ -3,27 +3,27 @@
     "user": "admin",
     "ip": "192.168.1.5",
     "service": "Static",
-    "status": "245.000",
+    "status": "DOWN",
     "phone": "085867540075",
     "callerid": "-",
     "lastlogout": "-",
     "lastdisconnectreason": "-",
     "lastcallerid": "-",
     "address": "asdasd",
-    "timestamp": 1701110550781
+    "timestamp": 1701135670376
   },
   {
     "user": "stb",
     "ip": "192.168.1.252",
     "service": "Static",
-    "status": "0.000",
+    "status": "DOWN",
     "phone": "085867540075",
     "callerid": "-",
     "lastlogout": "-",
     "lastdisconnectreason": "-",
     "lastcallerid": "-",
     "address": "aaaa",
-    "timestamp": 1701110550781
+    "timestamp": 1701135670376
   },
   {
     "user": "kuring",
@@ -36,7 +36,7 @@
     "lastdisconnectreason": "nas-request",
     "lastcallerid": "5C925E7F5320",
     "address": "-",
-    "timestamp": 1701110550781
+    "timestamp": 1701135670376
   },
   {
     "user": "faklah",
@@ -48,8 +48,8 @@
     "lastdisconnectreason": "nas-request",
     "lastcallerid": "5C925E7F5320",
     "address": "-",
-    "timestamp": 1701110550781,
-    "status": "0.000"
+    "timestamp": 1701135670376,
+    "status": "DOWN"
   },
   {
     "user": "sultankhilove",
@@ -62,6 +62,84 @@
     "lastdisconnectreason": "-",
     "lastcallerid": "-",
     "address": "aaaa",
-    "timestamp": 1701110550781
+    "timestamp": 1701135670376
+  },
+  {
+    "user": "zidna",
+    "ip": "10.10.14.150",
+    "service": "pppoe",
+    "phone": "-",
+    "callerid": "7898E80793EC",
+    "lastlogout": "nov 28 2023 01:44:23",
+    "lastdisconnectreason": "nas-request",
+    "lastcallerid": "7898E80793EC",
+    "address": "-",
+    "timestamp": 1701135670376,
+    "status": "DOWN"
+  },
+  {
+    "user": "rido",
+    "ip": "10.10.15.120",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "E01CFCDD6281",
+    "lastlogout": "nov 28 2023 01:48:42",
+    "lastdisconnectreason": "peer-request",
+    "lastcallerid": "E01CFCDD6281",
+    "address": "-",
+    "timestamp": 1701135670376
+  },
+  {
+    "user": "akuukamu",
+    "ip": "1.1.1.1",
+    "service": "pppoe",
+    "status": "18.000",
+    "phone": "-",
+    "callerid": "7898E80793EC",
+    "lastlogout": "nov 28 2023 00:10:11",
+    "lastdisconnectreason": "nas-request",
+    "lastcallerid": "5C925E7F5320",
+    "address": "-",
+    "timestamp": 1701135670376
+  },
+  {
+    "user": "syifa",
+    "ip": "10.10.22.123",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "7898E80793EC",
+    "lastlogout": "nov 28 2023 00:10:11",
+    "lastdisconnectreason": "nas-request",
+    "lastcallerid": "5C925E7F5320",
+    "address": "-",
+    "timestamp": 1701135670376
+  },
+  {
+    "user": "agusodon",
+    "ip": "10.10.14.139",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "E01CFC5DC56A",
+    "lastlogout": "nov 28 2023 06:40:58",
+    "lastdisconnectreason": "hung-up",
+    "lastcallerid": "E01CFC5DC56A",
+    "address": "-",
+    "timestamp": 1701135670376
+  },
+  {
+    "user": "sp45nokenon",
+    "ip": "10.10.15.185",
+    "service": "pppoe",
+    "phone": "-",
+    "callerid": "7898E80955A8",
+    "lastlogout": "nov 28 2023 07:51:15",
+    "lastdisconnectreason": "hung-up",
+    "lastcallerid": "7898E80955A8",
+    "address": "-",
+    "timestamp": 1701135670376,
+    "status": "DOWN"
   }
 ]
