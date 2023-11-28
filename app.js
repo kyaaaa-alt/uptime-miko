@@ -1,10 +1,11 @@
 const express = require('express');
-const session = require('express-session');
 const http = require('http');
 const socketIO = require('socket.io');
 const ping = require('ping');
 const fs = require('fs');
 const {response} = require("express");
+const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 
 const app = express();
 const server = http.createServer(app);
@@ -15,13 +16,6 @@ app.use(cors({ origin: '*' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-app.use(session({
-    secret: 'uptimemiko', // Change this to a strong, random string
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }, // Change to true if using HTTPS
-}));
-
 // Path to the data file
 const dataFilePath = 'data.json';
 const configFilePath = 'config.json';
@@ -30,10 +24,59 @@ const configFilePath = 'config.json';
 let ipStatusData = readDataFile() || [];
 let configData = readConfigFile() || {};
 
-app.use(express.static('public'));
+// Set up session middleware with express-session-file-store as the session store
+app.use(
+    session({
+        secret: 'uptimemiko', // Change this to a strong, random string
+        resave: false,
+        saveUninitialized: true,
+        store: new FileStore(),
+        cookie: { maxAge: 2629800000 }
+    })
+);
+// Authenticate middleware
+const authenticate = (req, res, next) => {
+    // Check if the user is authenticated (customize based on your logic)
+    if (req.session && req.session.authenticated) {
+        return next(); // User is authenticated, continue to the next middleware
+    } else {
+        res.redirect('/login'); // Redirect to the login page if not authenticated
+    }
+};
 
-app.get('/', (req, res) => {
+// Protected route
+app.get('/', authenticate, (req, res) => {
+    console.log('Authenticated user:', req.session.authenticated);
     res.sendFile(__dirname + '/public/index.html');
+});
+
+// Manually serve static files
+app.use((req, res, next) => {
+    if (req.url.startsWith('/css') || req.url.startsWith('/js')) {
+        // Adjust the path based on your project structure
+        res.sendFile(__dirname + '/public' + req.url);
+    } else {
+        next();
+    }
+});
+
+// Login route
+app.get('/login', (req, res) => {
+    res.sendFile(__dirname + '/public/login.html');
+});
+
+app.post('/authenticate', (req, res) => {
+    const { username, password } = req.body;
+
+    // Check your username and password (replace this with your actual authentication logic)
+    if (username === configData.usernamelogin && password === configData.passwordlogin) {
+        req.session.authenticated = true; // Mark the session as authenticated
+        console.log('User authenticated:', username);
+        console.log('Session after authentication:', req.session);
+        res.redirect('/'); // Redirect to the root page after successful authentication
+    } else {
+        res.send('Invalid username or password');
+    }
 });
 
 app.get('/api/getConfig', (req, res) => {
