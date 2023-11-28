@@ -13,9 +13,16 @@
     <h1 class="mb-4">Uptime Miko</h1>
 
     <!-- Button to trigger the modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">
-        Add User
-    </button>
+    <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">
+            Add/Modify User
+        </button>
+        <div>
+            <span class="badge bg-success" id="onlineCount">0</span>
+            <span class="badge bg-danger" id="offlineCount">0</span>
+        </div>
+    </div>
+
 
     <div id="ipList" class="mt-4"></div>
 </div>
@@ -25,7 +32,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="userModalLabel">Add User</h5>
+                <h5 class="modal-title" id="userModalLabel">Add/Modify User</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- Inside the modal body -->
@@ -75,7 +82,7 @@
                                     <span class="visually-hidden">Loading...</span>
                                 </div>
                             </span>
-                        Add User
+                        Save
                     </button>
                 </form>
             </div>

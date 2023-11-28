@@ -83,6 +83,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateIpList(data) {
         ipList.innerHTML = ''; // Clear the list before updating
 
+        let downUsersCount = 0;
+        let activeUsersCount = 0;
+
+        data.forEach(({ status }) => {
+            if (status === 'DOWN') {
+                downUsersCount++;
+            } else {
+                activeUsersCount++;
+            }
+        });
+
+        document.getElementById('onlineCount').innerText = activeUsersCount + ' (Online)';
+        document.getElementById('offlineCount').innerText = downUsersCount + ' (Offline)';
+
         data.sort((a, b) => {
             if (a.status === 'DOWN' && b.status !== 'DOWN') {
                 return -1;
