@@ -35,17 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateIpList(data) {
         ipList.innerHTML = ''; // Clear the list before updating
 
-        // Sort the data array based on status (down first)
-        data.sort((a, b) => {
-            if (a.status === 'DOWN' && b.status !== 'DOWN') {
-                return -1;
-            } else if (a.status !== 'DOWN' && b.status === 'DOWN') {
-                return 1;
-            } else {
-                return 0;
-            }
-        });
-
         data.forEach(({ user, ip, status, lastdisconnectreason }) => {
             // Create a new card
             console.log(lastdisconnectreason);
@@ -59,14 +48,25 @@ document.addEventListener('DOMContentLoaded', () => {
             card.className = `card mb-2 ${status !== 'DOWN' ? 'green-card' : 'red-card'}`;
 
             const cardBody = document.createElement('div');
-            cardBody.className = 'card-body';
+            cardBody.className = 'card-body d-flex justify-content-between align-items-center';
 
-            const content = document.createElement('div');
-            content.className = 'd-flex justify-content-between align-items-center';
-            content.innerHTML = `<span><strong>${user}</strong> (${ip})</span>
-            <span class="badge rounded-pill text-bg-${status !== 'DOWN' ? 'success' : 'danger'}">${status !== 'DOWN' ? convertToMilliseconds(status) :  lastdisconnectreason}</span>`;
+            // Add content to the card body
+            cardBody.innerHTML = `<span><strong>${user}</strong> (${ip})</span>`;
 
-            cardBody.appendChild(content);
+            // Create a new div for badge and delete button
+            const badgeAndButtonDiv = document.createElement('div');
+            badgeAndButtonDiv.className = 'd-flex align-items-center';
+
+            // Add the badge to the new div
+            badgeAndButtonDiv.innerHTML += `<span class="badge rounded-pill text-bg-${status !== 'DOWN' ? 'success' : 'danger'}">${status !== 'DOWN' ? convertToMilliseconds(status) : lastdisconnectreason}</span>`;
+
+            // Add the delete button to the new div
+            badgeAndButtonDiv.appendChild(createDeleteButton(user));
+
+            // Append the new div to the card body
+            cardBody.appendChild(badgeAndButtonDiv);
+
+            // Append the card body to the card
             card.appendChild(cardBody);
 
             // Add the new card to the list
@@ -147,5 +147,26 @@ document.addEventListener('DOMContentLoaded', () => {
             // If the value is not a valid number, return the original value
             return value;
         }
+    }
+
+    function createDeleteButton(username) {
+        const button = document.createElement('button');
+        button.className = 'btn btn-warning btn-sm ms-2 float-end mx-2 p-0 px-1';
+        button.innerText = '✖';
+        button.addEventListener('click', () => {
+            if (confirm(`Delete ${username}?`)) {
+                // Show loader and disable submit button while processing
+                showLoader();
+                disableSubmitButton();
+
+                // Emit the username to delete to the server
+                socket.emit('deleteDatabase', { username });
+
+                // Hide loader when data is updated
+                hideLoader();
+                enableSubmitButton();
+            }
+        });
+        return button;
     }
 });

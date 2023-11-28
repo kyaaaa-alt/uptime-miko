@@ -25,6 +25,21 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 
+app.post('/api/deleteUserData', (req, res) => {
+    const usernameToDelete = req.body.username;
+
+    // Remove the entry from the ipStatusData array
+    ipStatusData = ipStatusData.filter(entry => entry.user !== usernameToDelete);
+
+    // Save the updated data to the file
+    saveDataToFile(ipStatusData);
+
+    // Emit the updated data to all clients
+    io.emit('ipStatus', ipStatusData);
+
+    res.json({ success: true, message: 'Data deleted successfully' });
+});
+
 // Listen for form submissions from MikroTik
 app.post('/api/updateUserData', async (req, res) => {
     console.log('Received form api:', req.body);
@@ -153,6 +168,19 @@ io.on('connection', (socket) => {
         } catch (error) {
             console.error('Error checking uptime or updating data:', error);
         }
+    });
+
+    socket.on('deleteDatabase', (data) => {
+        const { username } = data;
+
+        // Remove the entry from the ipStatusData array
+        ipStatusData = ipStatusData.filter(entry => entry.user !== username);
+
+        // Save the updated data to the file
+        saveDataToFile(ipStatusData);
+
+        // Emit the updated data to all clients
+        io.emit('ipStatus', ipStatusData);
     });
 });
 
