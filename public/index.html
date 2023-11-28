@@ -10,14 +10,19 @@
 </head>
 <body data-bs-theme="dark">
 <div class="container">
-    <h1 class="mb-0" id="editableHeader" contenteditable="true">Sultan Khilove Network</h1>
-    <p class="mb-4"> Powered by Uptime Miko</p>
+    <h1 class="mb-0" id="companyname"></h1>
+    <p class="mb-4">Powered by Uptime Miko</p>
 
     <!-- Button to trigger the modal -->
     <div class="d-flex justify-content-between">
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">
-            Add/Modify User
-        </button>
+        <div>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userModal">
+                Add/Modify User
+            </button>
+            <button type="button" class="btn btn-primary ms-2" data-bs-toggle="modal" data-bs-target="#configModal">
+                Config
+            </button>
+        </div>
         <div>
             <span class="badge bg-success" id="onlineCount">0</span>
             <span class="badge bg-danger" id="offlineCount">0</span>
@@ -104,6 +109,44 @@
         </div>
     </div>
 </div>
+
+<!-- Configuration Modal -->
+<div class="modal fade" id="configModal" tabindex="-1" aria-labelledby="configModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="configModalLabel">Configuration</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="configForm">
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control" id="company" placeholder="Company" required>
+                        <label for="company">Company</label>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control" id="discord" placeholder="Discord" required>
+                        <label for="discord">Discord</label>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control" id="telegrambot" placeholder="Telegram Bot" required>
+                        <label for="telegrambot">Telegram Bot</label>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control" id="telegramid" placeholder="Telegram ID" required>
+                        <label for="telegramid">Telegram ID</label>
+                    </div>
+                    <div class="mb-3 form-floating">
+                        <input type="text" class="form-control" id="customapi" placeholder="Custom API" required>
+                        <label for="customapi">Custom API</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="js/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.socket.io/4.1.3/socket.io.min.js"></script>

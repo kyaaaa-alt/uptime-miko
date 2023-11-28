@@ -36,6 +36,57 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => console.error('Error fetching usernames:', error));
     });
 
+    fetch('/api/getConfig')
+        .then(response => response.json())
+        .then(config => {
+            // Populate the form fields with config data
+            populateConfigForm(config);
+            document.getElementById('companyname').innerText = config.company;
+        })
+        .catch(error => console.error('Error fetching config data:', error));
+
+    socket.on('configData', (config) => {
+        // Populate the configuration form with data from config.json
+        document.getElementById('company').value = config.company;
+        document.getElementById('discord').value = config.discord;
+        document.getElementById('telegrambot').value = config.telegrambot;
+        document.getElementById('telegramid').value = config.telegramid;
+        document.getElementById('customapi').value = config.customapi;
+        document.getElementById('companyname').innerText = config.company;
+    });
+
+    const configForm = document.getElementById('configForm');
+    configForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        // Gather data from the form
+        const company = document.getElementById('company').value;
+        const discord = document.getElementById('discord').value;
+        const telegrambot = document.getElementById('telegrambot').value;
+        const telegramid = document.getElementById('telegramid').value;
+        const customapi = document.getElementById('customapi').value;
+
+        // Emit the configuration data to the server
+        socket.emit('updateConfig', { company, discord, telegrambot, telegramid, customapi });
+
+        fetch('/api/updateConfig', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ company, discord, telegrambot, telegramid, customapi })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                $('#configModal').modal('hide');
+            })
+            .catch(error => console.error('Error:', error));
+
+        // Close the modal
+        $('#configModal').modal('hide');
+    });
+
     // Listen for 'ipStatus' events from the server
     socket.on('ipStatus', (data) => {
         updateIpList(data);
@@ -268,5 +319,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 $('#entryModal').modal('show');
             })
             .catch(error => console.error('Error fetching user details:', error));
+    }
+    function populateConfigForm(config) {
+        // Assuming you have input fields with corresponding IDs
+        document.getElementById('company').value = config.company || '';
+        document.getElementById('discord').value = config.discord || '';
+        document.getElementById('telegrambot').value = config.telegrambot || '';
+        document.getElementById('telegramid').value = config.telegramid || '';
+        document.getElementById('customapi').value = config.customapi || '';
     }
 });

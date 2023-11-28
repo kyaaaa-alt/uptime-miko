@@ -12,17 +12,41 @@ const io = new socketIO.Server(server);
 const cors = require('cors');
 app.use(cors({ origin: '*' }));
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Path to the data file
 const dataFilePath = 'data.json';
+const configFilePath = 'config.json';
 
 // Read initial data from the file or create an empty array
 let ipStatusData = readDataFile() || [];
+let configData = readConfigFile() || {};
 
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/api/getConfig', (req, res) => {
+    res.json(configData);
+});
+
+// Listen for form submissions from the configuration modal
+app.post('/api/updateConfig', (req, res) => {
+    const config = req.body;
+    console.log('Received data:', config);
+
+    // Update the configData object
+    configData = { ...config };
+
+    // Save the config data to the file
+    saveConfigToFile(configData);
+
+    // Emit the updated config data to all clients
+    io.emit('configData', configData);
+
+    res.json({ success: true, message: 'Config updated successfully' });
 });
 
 app.get('/api/getUserData', (req, res) => {
@@ -282,6 +306,26 @@ function readDataFile() {
     } catch (error) {
         console.error('Error reading data file:', error);
         return null;
+    }
+}
+
+function readConfigFile() {
+    try {
+        const config = fs.readFileSync(configFilePath, 'utf8');
+        return JSON.parse(config);
+    } catch (error) {
+        console.error('Error reading config file:', error);
+        return null;
+    }
+}
+
+// Helper function to save config data to the file
+function saveConfigToFile(config) {
+    try {
+        fs.writeFileSync(configFilePath, JSON.stringify(config, null, 2), 'utf8');
+        console.log('Config saved to file successfully!');
+    } catch (error) {
+        console.error('Error saving config to file:', error);
     }
 }
 
