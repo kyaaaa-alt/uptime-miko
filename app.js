@@ -47,18 +47,15 @@ app.post('/api/updateUserData', async (req, res) => {
         if (existingEntryIndex !== -1) {
             // Entry already exists, update it
             console.log(`Entry already exists for user ${user}, updating...`);
-            ipStatusData[existingEntryIndex] = {
-                user,
-                ip,
-                service,
-                phone,
-                callerid,
-                lastlogout: lastlogout,
-                lastdisconnectreason,
-                lastcallerid,
-                address,
-                timestamp: Date.now(),
-            };
+            // Check if each field has a value other than "-"
+            if (ip !== '-') ipStatusData[existingEntryIndex].ip = ip;
+            if (service !== '-') ipStatusData[existingEntryIndex].service = service;
+            if (phone !== '-') ipStatusData[existingEntryIndex].phone = phone;
+            if (callerid !== '-') ipStatusData[existingEntryIndex].callerid = callerid;
+            if (lastlogout !== '-') ipStatusData[existingEntryIndex].lastlogout = lastlogout;
+            if (lastdisconnectreason !== '-') ipStatusData[existingEntryIndex].lastdisconnectreason = lastdisconnectreason;
+            if (lastcallerid !== '-') ipStatusData[existingEntryIndex].lastcallerid = lastcallerid;
+            if (address !== '-') ipStatusData[existingEntryIndex].address = address;
             // Update the status based on the new IP
             ipStatusData[existingEntryIndex].status = await checkUptime(ipStatusData[existingEntryIndex].ip);
         } else {
@@ -110,18 +107,20 @@ io.on('connection', (socket) => {
             const existingEntryIndex = ipStatusData.findIndex(entry => entry.user === user);
 
             if (existingEntryIndex !== -1) {
-                // Entry already exists, update it
+                // Entry already exists, update it without modifying certain fields
                 console.log(`Entry already exists for user ${user}, updating...`);
+                const existingEntry = ipStatusData[existingEntryIndex];
                 ipStatusData[existingEntryIndex] = {
                     user,
                     ip,
                     service,
                     status,
                     phone,
-                    callerid,
-                    lastlogout,
-                    lastdisconnectreason,
-                    lastcallerid,
+                    // Do not update these fields if the entry already exists
+                    callerid: existingEntry.callerid,
+                    lastlogout: existingEntry.lastlogout,
+                    lastdisconnectreason: existingEntry.lastdisconnectreason,
+                    lastcallerid: existingEntry.lastcallerid,
                     address,
                     timestamp: Date.now(),
                 };
