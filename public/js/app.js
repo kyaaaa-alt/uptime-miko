@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Listen for 'ipStatus' events from the server
     socket.on('ipStatus', (data) => {
         updateIpList(data);
+    });
+
+    socket.on('dataSaved', (data) => {
         hideLoader(); // Hide loader when data is updated
         enableSubmitButton(); // Enable the submit button
         $('#userModal').modal('hide'); // Close the modal after the process is complete

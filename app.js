@@ -149,6 +149,7 @@ io.on('connection', (socket) => {
 
             // Emit the updated data to all clients
             io.emit('ipStatus', ipStatusData);
+            io.emit('dataSaved', 'ok');
         } catch (error) {
             console.error('Error checking uptime or updating data:', error);
         }
