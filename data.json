@@ -10,20 +10,20 @@
     "lastdisconnectreason": "-",
     "lastcallerid": "-",
     "address": "asdasdas",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "stb",
     "ip": "192.168.1.252",
     "service": "Static",
-    "status": "1.000",
+    "status": "0.000",
     "phone": "085867540075",
     "callerid": "-",
     "lastlogout": "-",
     "lastdisconnectreason": "-",
     "lastcallerid": "-",
     "address": "aaaa",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "kila",
@@ -36,7 +36,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "40EE153B67C5",
     "address": "tesaja",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "rianela",
@@ -49,7 +49,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "7898E8057C70",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "mawar",
@@ -62,7 +62,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "5C925E719B2D",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "azka",
@@ -75,7 +75,7 @@
     "lastdisconnectreason": "peer-request",
     "lastcallerid": "144D67CE3BA4",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "syamsi",
@@ -88,7 +88,7 @@
     "lastdisconnectreason": "peer-request",
     "lastcallerid": "5C925E7F5320",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "omeng",
@@ -101,7 +101,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "BC0F9AC532B7",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "sp25ndangnurjanah",
@@ -114,7 +114,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFCF82411",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "mahmudooh",
@@ -127,7 +127,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "340A33EDF10D",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "empang",
@@ -140,7 +140,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "40EE150334B5",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "mamansari",
@@ -153,7 +153,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "BC0F9AC7A593",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "sp08mila",
@@ -166,7 +166,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFC5F8AAA",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "sp06teti",
@@ -179,7 +179,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFC5DD1D6",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "sp16asidinmamah",
@@ -192,7 +192,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "7898E8056BAC",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "sp21nenisarju",
@@ -205,7 +205,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFCF880F1",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "sp32yudi",
@@ -218,7 +218,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "7898E809083C",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "sp05lilis",
@@ -231,7 +231,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "340A33EE5689",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "sp38dodititi",
@@ -244,7 +244,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFC5D116A",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "sp24enah",
@@ -257,7 +257,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "7898E8DB0039",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964312
   },
   {
     "user": "faiz",
@@ -270,7 +270,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFCDDF3D9",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "saedesi",
@@ -283,7 +283,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFCDFC95D",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "sp18didintini",
@@ -296,7 +296,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFCDD90E1",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "sp14enon",
@@ -309,7 +309,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "40EE15032271",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "test",
@@ -322,7 +322,7 @@
     "lastdisconnectreason": "peer-request",
     "lastcallerid": "172.22.22.2",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "uciari",
@@ -335,7 +335,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFCF7EB59",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "sp23ayayat",
@@ -348,7 +348,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFCDF2E89",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "iratia",
@@ -361,7 +361,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "7898E804CDE4",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "kayla",
@@ -374,7 +374,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFCDFD80D",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "mamanrita",
@@ -387,7 +387,7 @@
     "lastdisconnectreason": "peer-request",
     "lastcallerid": "E01CFCDE92B5",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "mia",
@@ -400,7 +400,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "40EE153B5679",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "eginani",
@@ -413,7 +413,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "40EE153B2071",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "adipati",
@@ -426,7 +426,7 @@
     "lastdisconnectreason": "peer-request",
     "lastcallerid": "E865D47E5DE8",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "akukamu",
@@ -439,7 +439,7 @@
     "lastdisconnectreason": "-",
     "lastcallerid": "-",
     "address": "aaaa",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "monotiti",
@@ -452,7 +452,7 @@
     "lastdisconnectreason": "nas-request",
     "lastcallerid": "E01CFCF86921",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   },
   {
     "user": "damar",
@@ -465,6 +465,6 @@
     "lastdisconnectreason": "nas-request",
     "lastcallerid": "E865D47EA5B8",
     "address": "-",
-    "timestamp": 1701192664073
+    "timestamp": 1701192964313
   }
 ]
