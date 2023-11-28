@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const http = require('http');
 const socketIO = require('socket.io');
 const ping = require('ping');
@@ -13,6 +14,13 @@ const cors = require('cors');
 app.use(cors({ origin: '*' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(session({
+    secret: 'uptimemiko', // Change this to a strong, random string
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }, // Change to true if using HTTPS
+}));
 
 // Path to the data file
 const dataFilePath = 'data.json';

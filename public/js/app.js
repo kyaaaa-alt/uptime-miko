@@ -53,6 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('telegramid').value = config.telegramid;
         document.getElementById('customapi').value = config.customapi;
         document.getElementById('companyname').innerText = config.company;
+        document.getElementById('usernamelogin').innerText = config.usernamelogin;
+        document.getElementById('passwordlogin').innerText = config.passwordlogin;
     });
 
     const configForm = document.getElementById('configForm');
@@ -65,16 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
         const telegrambot = document.getElementById('telegrambot').value;
         const telegramid = document.getElementById('telegramid').value;
         const customapi = document.getElementById('customapi').value;
+        const usernamelogin = document.getElementById('usernamelogin').value;
+        const passwordlogin = document.getElementById('passwordlogin').value;
 
         // Emit the configuration data to the server
-        socket.emit('updateConfig', { company, discord, telegrambot, telegramid, customapi });
+        socket.emit('updateConfig', { company, discord, telegrambot, telegramid, customapi, usernamelogin, passwordlogin });
 
         fetch('/api/updateConfig', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ company, discord, telegrambot, telegramid, customapi })
+            body: JSON.stringify({ company, discord, telegrambot, telegramid, customapi, usernamelogin, passwordlogin })
         })
             .then(response => response.json())
             .then(data => {
@@ -327,5 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('telegrambot').value = config.telegrambot || '';
         document.getElementById('telegramid').value = config.telegramid || '';
         document.getElementById('customapi').value = config.customapi || '';
+        document.getElementById('usernamelogin').value = config.usernamelogin || '';
+        document.getElementById('passwordlogin').value = config.passwordlogin || '';
     }
 });
