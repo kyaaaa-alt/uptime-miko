@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to update the IP list on the frontend
     function updateIpList(data) {
         ipList.innerHTML = ''; // Clear the list before updating
-        
+
         data.sort((a, b) => {
             if (a.status === 'DOWN' && b.status !== 'DOWN') {
                 return -1;
