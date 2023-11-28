@@ -46,8 +46,15 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        data.forEach(({ user, ip, status }) => {
+        data.forEach(({ user, ip, status, lastdisconnectreason }) => {
             // Create a new card
+            console.log(lastdisconnectreason);
+            if (lastdisconnectreason !== '-') {
+                lastdisconnectreason = 'DOWN: ' + lastdisconnectreason;
+            } else {
+                lastdisconnectreason = 'DOWN';
+            }
+
             const card = document.createElement('div');
             card.className = `card mb-2 ${status !== 'DOWN' ? 'green-card' : 'red-card'}`;
 
@@ -57,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const content = document.createElement('div');
             content.className = 'd-flex justify-content-between align-items-center';
             content.innerHTML = `<span><strong>${user}</strong> (${ip})</span>
-            <span class="badge rounded-pill text-bg-${status !== 'DOWN' ? 'success' : 'danger'}">${status !== 'DOWN' || status !== 'DOWN'  ? convertToMilliseconds(status) : 'DOWN'}</span>`;
+            <span class="badge rounded-pill text-bg-${status !== 'DOWN' ? 'success' : 'danger'}">${status !== 'DOWN' || status !== 'DOWN'  ? convertToMilliseconds(status) :  lastdisconnectreason}</span>`;
 
             cardBody.appendChild(content);
             card.appendChild(cardBody);

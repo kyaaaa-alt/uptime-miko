@@ -157,29 +157,20 @@ io.on('connection', (socket) => {
 });
 
 const checkUptime = async (ip) => {
-    const maxRetries = 1;
-    let retryCount = 0;
+    try {
+        const pingPromise = ping.promise.probe(ip, { timeout: 200, min_reply: 3 });
+        const result = await Promise.race([pingPromise, new Promise((_, reject) => setTimeout(() => reject('Timeout'), 3000))]);
 
-    while (retryCount < maxRetries) {
-        try {
-            const pingPromise = ping.promise.probe(ip, { timeout: 200, min_reply: 3 });
-            const result = await Promise.race([pingPromise, new Promise((_, reject) => setTimeout(() => reject('Timeout'), 3000))]);
-
-            if (result) {
-                console.log(`Uptime for ${ip}:`, result.avg);
-                return result.avg; // Return the round-trip time if the host is reachable
-            } else {
-                console.log(`Retrying for ${ip}...`);
-                retryCount++;
-            }
-        } catch (error) {
-            console.error(`Uptime for ${ip}:`, error);
-            return 'DOWN'; // Assume the status is down if there is an error
+        if (result) {
+            console.log(`Uptime for ${ip}:`, result.avg);
+            return result.avg; // Return the round-trip time if the host is reachable
+        } else {
+            console.log(`Retrying for ${ip}...`);
         }
+    } catch (error) {
+        console.error(`Uptime for ${ip}:`, error);
+        return 'DOWN'; // Assume the status is down if there is an error
     }
-
-    // If max retries are reached and still not successful, consider it as DOWN
-    console.log(`Max retries reached for ${ip}, marking as DOWN`);
     return 'DOWN';
 };
 
@@ -222,7 +213,7 @@ const checkAndEmitUptime = async () => {
 };
 
 // Implement logic for checking and emitting IP uptime status
-setInterval(checkAndEmitUptime, 10000);
+setInterval(checkAndEmitUptime, 20000);
 
 const PORT = process.env.PORT || 3000;
 
