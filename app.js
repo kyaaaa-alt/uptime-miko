@@ -25,6 +25,21 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 
+app.get('/api/getUserData', (req, res) => {
+    const username = req.query.username;
+    const user = ipStatusData.find(entry => entry.user === username);
+    res.json(user);
+});
+
+app.get('/api/getUsernames', (req, res) => {
+    const usernames = ipStatusData.map(entry => entry.user);
+    res.json(usernames);
+});
+
+function getUsernames() {
+    return ipStatusData.map(entry => entry.user);
+}
+
 app.post('/api/deleteUserData', (req, res) => {
     const usernameToDelete = req.body.username;
 
@@ -63,6 +78,7 @@ app.post('/api/updateUserData', async (req, res) => {
             // Entry already exists, update it
             console.log(`Entry already exists for user ${user}, updating...`);
             // Check if each field has a value other than "-"
+            if (user !== '-') ipStatusData[existingEntryIndex].user = user;
             if (ip !== '-') ipStatusData[existingEntryIndex].ip = ip;
             if (service !== '-') ipStatusData[existingEntryIndex].service = service;
             if (phone !== '-') ipStatusData[existingEntryIndex].phone = phone;
@@ -125,20 +141,17 @@ io.on('connection', (socket) => {
                 // Entry already exists, update it without modifying certain fields
                 console.log(`Entry already exists for user ${user}, updating...`);
                 const existingEntry = ipStatusData[existingEntryIndex];
-                ipStatusData[existingEntryIndex] = {
-                    user,
-                    ip,
-                    service,
-                    status,
-                    phone,
-                    // Do not update these fields if the entry already exists
-                    callerid: existingEntry.callerid,
-                    lastlogout: existingEntry.lastlogout,
-                    lastdisconnectreason: existingEntry.lastdisconnectreason,
-                    lastcallerid: existingEntry.lastcallerid,
-                    address,
-                    timestamp: Date.now(),
-                };
+                if (user !== '') ipStatusData[existingEntryIndex].user = user;
+                if (ip !== '') ipStatusData[existingEntryIndex].ip = ip;
+                if (service !== '') ipStatusData[existingEntryIndex].service = service;
+                if (phone !== '') ipStatusData[existingEntryIndex].phone = phone;
+                ipStatusData[existingEntryIndex].callerid = existingEntry.callerid;
+                ipStatusData[existingEntryIndex].lastlogout = existingEntry.lastlogout;
+                ipStatusData[existingEntryIndex].lastdisconnectreason = existingEntry.lastdisconnectreason;
+                ipStatusData[existingEntryIndex].lastcallerid = existingEntry.lastcallerid;
+                if (address !== '') ipStatusData[existingEntryIndex].address = address;
+                existingEntry.timestamp = Date.now();
+
                 // Update the status based on the new IP
                 ipStatusData[existingEntryIndex].status = await checkUptime(ipStatusData[existingEntryIndex].ip);
             } else {
@@ -164,7 +177,7 @@ io.on('connection', (socket) => {
 
             // Emit the updated data to all clients
             io.emit('ipStatus', ipStatusData);
-            io.emit('dataSaved', 'ok');
+            io.emit('dataSaved', getUsernames());
         } catch (error) {
             console.error('Error checking uptime or updating data:', error);
         }

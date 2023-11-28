@@ -18,17 +18,65 @@ document.addEventListener('DOMContentLoaded', () => {
     // Listen for 'initialData' event from the server
     socket.on('initialData', (data) => {
         updateIpList(data);
+        fetch('/api/getUsernames')
+            .then(response => response.json())
+            .then(usernames => {
+                const datalist = document.getElementById('usernamesDatalist');
+
+                // Clear existing options
+                datalist.innerHTML = '';
+
+                // Add new options based on the usernames
+                usernames.forEach(username => {
+                    const option = document.createElement('option');
+                    option.value = username;
+                    datalist.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching usernames:', error));
     });
 
     // Listen for 'ipStatus' events from the server
     socket.on('ipStatus', (data) => {
         updateIpList(data);
+        fetch('/api/getUsernames')
+            .then(response => response.json())
+            .then(usernames => {
+                const datalist = document.getElementById('usernamesDatalist');
+
+                // Clear existing options
+                datalist.innerHTML = '';
+
+                // Add new options based on the usernames
+                usernames.forEach(username => {
+                    const option = document.createElement('option');
+                    option.value = username;
+                    datalist.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching usernames:', error));
     });
 
     socket.on('dataSaved', (data) => {
         hideLoader(); // Hide loader when data is updated
         enableSubmitButton(); // Enable the submit button
         $('#userModal').modal('hide'); // Close the modal after the process is complete
+        fetch('/api/getUsernames')
+            .then(response => response.json())
+            .then(usernames => {
+                const datalist = document.getElementById('usernamesDatalist');
+
+                // Clear existing options
+                datalist.innerHTML = '';
+
+                // Add new options based on the usernames
+                usernames.forEach(username => {
+                    const option = document.createElement('option');
+                    option.value = username;
+                    datalist.appendChild(option);
+                });
+            })
+            .catch(error => console.error('Error fetching usernames:', error));
     });
 
     // Function to update the IP list on the frontend
@@ -47,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         data.forEach(({ user, ip, status, lastdisconnectreason }) => {
             // Create a new card
-            console.log(lastdisconnectreason);
             if (lastdisconnectreason !== '-') {
                 lastdisconnectreason = 'DOWN: ' + lastdisconnectreason;
             } else {
@@ -79,6 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Append the card body to the card
             card.appendChild(cardBody);
 
+            card.addEventListener('click', () => {
+                showUserDetails(user);
+            });
+
             // Add the new card to the list
             ipList.appendChild(card);
         });
@@ -98,7 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const lastcallerid = lastcalleridInput.value.trim() || '-';
         const address = addressInput.value.trim() || '-';
 
-        if (username && ipAddress) {
+        if (username) {
             // Show loader and disable submit button while processing
             showLoader();
             disableSubmitButton();
@@ -178,5 +229,30 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         return button;
+    }
+
+    function showUserDetails(username) {
+        // Fetch detailed data for the selected user
+        fetch(`/api/getUserData?username=${username}`)
+            .then(response => response.json())
+            .then(user => {
+                // Populate the modal content with user details
+                const modalContent = document.getElementById('modalContent');
+                modalContent.innerHTML = `
+                <p><strong>Username:</strong> ${user.user}</p>
+                <p><strong>IP Address:</strong> ${user.ip}</p>
+                <p><strong>Service:</strong> ${user.service}</p>
+                <p><strong>Phone:</strong> ${user.phone}</p>
+                <p><strong>Caller ID:</strong> ${user.callerid}</p>
+                <p><strong>Last Logout:</strong> ${user.lastlogout}</p>
+                <p><strong>Last Disconnect Reason:</strong> ${user.lastdisconnectreason}</p>
+                <p><strong>Last Caller ID:</strong> ${user.lastcallerid}</p>
+                <p><strong>Address:</strong> ${user.address}</p>
+            `;
+
+                // Show the modal
+                $('#entryModal').modal('show');
+            })
+            .catch(error => console.error('Error fetching user details:', error));
     }
 });

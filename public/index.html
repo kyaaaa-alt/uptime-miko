@@ -35,15 +35,21 @@
             <div class="modal-body">
                 <form id="userForm">
                     <div class="mb-3 form-floating">
-                        <input type="text" class="form-control" id="username" placeholder="Username" required>
+                        <input list="usernamesDatalist" type="text" class="form-control" id="username" placeholder="Username" required>
+                        <datalist id="usernamesDatalist"></datalist>
                         <label for="username">Username</label>
                     </div>
                     <div class="mb-3 form-floating">
-                        <input type="text" class="form-control" id="ipAddress" placeholder="IP Address" required>
+                        <input type="text" class="form-control" id="ipAddress" placeholder="IP Address">
                         <label for="ipAddress">IP Address</label>
                     </div>
                     <div class="mb-3 form-floating">
-                        <input type="text" class="form-control" id="service" placeholder="service" required>
+                        <input list="staticlist" type="text" class="form-control" id="service" placeholder="service">
+                        <datalist id="staticlist">
+                            <option value="pppoe">
+                            <option value="static">
+                            <option value="others">
+                        </datalist>
                         <label for="service">Service</label>
                     </div>
                     <div class="mb-3 form-floating">
@@ -73,9 +79,20 @@
                     </button>
                 </form>
             </div>
+        </div>
+    </div>
+</div>
 
-            <!-- ... (existing code) -->
-
+<div class="modal fade" id="entryModal" tabindex="-1" aria-labelledby="entryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="entryModalLabel">Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                <!-- Content will be dynamically populated here -->
+            </div>
         </div>
     </div>
 </div>

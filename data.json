@@ -3,14 +3,14 @@
     "user": "admin",
     "ip": "192.168.1.5",
     "service": "Static",
-    "status": "25.000",
+    "status": "DOWN",
     "phone": "6281222079788",
     "callerid": "-",
     "lastlogout": "-",
     "lastdisconnectreason": "-",
     "lastcallerid": "-",
     "address": "asdasdas",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "stb",
@@ -23,7 +23,7 @@
     "lastdisconnectreason": "-",
     "lastcallerid": "-",
     "address": "aaaa",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "kila",
@@ -32,11 +32,11 @@
     "status": "DOWN",
     "phone": "-",
     "callerid": "40EE153B67C5",
-    "lastlogout": "nov 28 2023 18:31:35",
+    "lastlogout": "nov 28 2023 20:38:54",
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "40EE153B67C5",
-    "address": "-",
-    "timestamp": 1701172527466
+    "address": "tesaja",
+    "timestamp": 1701184770752
   },
   {
     "user": "rianela",
@@ -49,7 +49,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "7898E8057C70",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "mawar",
@@ -62,7 +62,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "5C925E719B2D",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "azka",
@@ -75,7 +75,7 @@
     "lastdisconnectreason": "peer-request",
     "lastcallerid": "144D67CE3BA4",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "syamsi",
@@ -88,7 +88,7 @@
     "lastdisconnectreason": "peer-request",
     "lastcallerid": "5C925E7F5320",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "omeng",
@@ -101,7 +101,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "BC0F9AC532B7",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "sp25ndangnurjanah",
@@ -114,7 +114,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFCF82411",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "mahmudooh",
@@ -123,11 +123,11 @@
     "status": "DOWN",
     "phone": "-",
     "callerid": "340A33EDF10D",
-    "lastlogout": "nov 28 2023 18:42:36",
+    "lastlogout": "nov 28 2023 20:11:26",
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "340A33EDF10D",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "empang",
@@ -140,7 +140,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "40EE150334B5",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "mamansari",
@@ -149,11 +149,11 @@
     "status": "DOWN",
     "phone": "-",
     "callerid": "BC0F9AC7A593",
-    "lastlogout": "nov 28 2023 18:46:27",
+    "lastlogout": "nov 28 2023 20:08:00",
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "BC0F9AC7A593",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "sp08mila",
@@ -166,20 +166,20 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFC5F8AAA",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "sp06teti",
-    "ip": "10.10.14.105",
+    "ip": "10.10.14.98",
     "service": "pppoe",
     "status": "DOWN",
     "phone": "-",
     "callerid": "E01CFC5DD1D6",
-    "lastlogout": "nov 28 2023 17:00:16",
+    "lastlogout": "nov 28 2023 19:22:13",
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFC5DD1D6",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "sp16asidinmamah",
@@ -192,7 +192,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "7898E8056BAC",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "sp21nenisarju",
@@ -205,33 +205,33 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFCF880F1",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "sp32yudi",
-    "ip": "10.10.14.102",
+    "ip": "10.10.14.95",
     "service": "pppoe",
     "status": "DOWN",
     "phone": "-",
     "callerid": "7898E809083C",
-    "lastlogout": "nov 28 2023 17:00:18",
+    "lastlogout": "nov 28 2023 19:46:50",
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "7898E809083C",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "sp05lilis",
-    "ip": "10.10.14.101",
+    "ip": "10.10.14.97",
     "service": "pppoe",
     "status": "DOWN",
     "phone": "-",
     "callerid": "340A33EE5689",
-    "lastlogout": "nov 28 2023 17:00:36",
+    "lastlogout": "nov 28 2023 19:22:12",
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "340A33EE5689",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "sp38dodititi",
@@ -244,7 +244,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFC5D116A",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
   },
   {
     "user": "sp24enah",
@@ -257,6 +257,188 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "7898E8DB0039",
     "address": "-",
-    "timestamp": 1701172527466
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "faiz",
+    "ip": "10.10.14.145",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "E01CFCDDF3D9",
+    "lastlogout": "nov 28 2023 19:00:27",
+    "lastdisconnectreason": "hung-up",
+    "lastcallerid": "E01CFCDDF3D9",
+    "address": "-",
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "saedesi",
+    "ip": "10.10.14.117",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "E01CFCDFC95D",
+    "lastlogout": "nov 28 2023 19:01:28",
+    "lastdisconnectreason": "hung-up",
+    "lastcallerid": "E01CFCDFC95D",
+    "address": "-",
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "sp18didintini",
+    "ip": "10.10.14.162",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "E01CFCDD90E1",
+    "lastlogout": "nov 28 2023 19:22:28",
+    "lastdisconnectreason": "hung-up",
+    "lastcallerid": "E01CFCDD90E1",
+    "address": "-",
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "sp14enon",
+    "ip": "10.10.14.186",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "40EE15032271",
+    "lastlogout": "nov 28 2023 19:22:11",
+    "lastdisconnectreason": "hung-up",
+    "lastcallerid": "40EE15032271",
+    "address": "-",
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "test",
+    "ip": "172.22.22.247",
+    "service": "any",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "",
+    "lastlogout": "nov 28 2023 01:08:12",
+    "lastdisconnectreason": "peer-request",
+    "lastcallerid": "172.22.22.2",
+    "address": "-",
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "uciari",
+    "ip": "10.10.15.16",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "E01CFCF7EB59",
+    "lastlogout": "nov 28 2023 19:54:37",
+    "lastdisconnectreason": "hung-up",
+    "lastcallerid": "E01CFCF7EB59",
+    "address": "-",
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "sp23ayayat",
+    "ip": "10.10.14.114",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "",
+    "lastlogout": "nov 28 2023 19:55:17",
+    "lastdisconnectreason": "hung-up",
+    "lastcallerid": "E01CFCDF2E89",
+    "address": "-",
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "iratia",
+    "ip": "10.10.14.203",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "7898E804CDE4",
+    "lastlogout": "nov 28 2023 19:56:37",
+    "lastdisconnectreason": "hung-up",
+    "lastcallerid": "7898E804CDE4",
+    "address": "-",
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "kayla",
+    "ip": "10.10.14.199",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "E01CFCDFD80D",
+    "lastlogout": "nov 28 2023 20:10:48",
+    "lastdisconnectreason": "hung-up",
+    "lastcallerid": "E01CFCDFD80D",
+    "address": "-",
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "mamanrita",
+    "ip": "10.10.14.171",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "E01CFCDE92B5",
+    "lastlogout": "nov 28 2023 20:14:26",
+    "lastdisconnectreason": "peer-request",
+    "lastcallerid": "E01CFCDE92B5",
+    "address": "-",
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "mia",
+    "ip": "10.10.15.254",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "40EE153B5679",
+    "lastlogout": "nov 28 2023 20:38:55",
+    "lastdisconnectreason": "hung-up",
+    "lastcallerid": "40EE153B5679",
+    "address": "-",
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "eginani",
+    "ip": "10.10.15.240",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "40EE153B2071",
+    "lastlogout": "nov 28 2023 20:39:02",
+    "lastdisconnectreason": "hung-up",
+    "lastcallerid": "40EE153B2071",
+    "address": "-",
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "adipati",
+    "ip": "10.10.14.94",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "E865D47E5DE8",
+    "lastlogout": "nov 28 2023 21:53:55",
+    "lastdisconnectreason": "peer-request",
+    "lastcallerid": "E865D47E5DE8",
+    "address": "-",
+    "timestamp": 1701184770752
+  },
+  {
+    "user": "akukamu",
+    "ip": "192.168.1.253",
+    "service": "static",
+    "status": "0.000",
+    "phone": "085867540075",
+    "callerid": "-",
+    "lastlogout": "-",
+    "lastdisconnectreason": "-",
+    "lastcallerid": "-",
+    "address": "aaaa",
+    "timestamp": 1701184770752
   }
 ]
