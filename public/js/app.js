@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const content = document.createElement('div');
             content.className = 'd-flex justify-content-between align-items-center';
             content.innerHTML = `<span><strong>${user}</strong> (${ip})</span>
-            <span class="badge rounded-pill text-bg-${status !== 'DOWN' ? 'success' : 'danger'}">${status !== 'DOWN' || status !== 'DOWN'  ? convertToMilliseconds(status) :  lastdisconnectreason}</span>`;
+            <span class="badge rounded-pill text-bg-${status !== 'DOWN' ? 'success' : 'danger'}">${status !== 'DOWN' ? convertToMilliseconds(status) :  lastdisconnectreason}</span>`;
 
             cardBody.appendChild(content);
             card.appendChild(cardBody);
