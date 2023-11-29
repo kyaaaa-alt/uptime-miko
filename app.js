@@ -6,6 +6,7 @@ const fs = require('fs');
 const {response} = require("express");
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
+const { DiscordWebhook } = require("./lib/discord");
 
 const app = express();
 const server = http.createServer(app);
@@ -170,7 +171,21 @@ app.post('/api/updateUserData', async (req, res) => {
             if (lastcallerid !== '-') ipStatusData[existingEntryIndex].lastcallerid = lastcallerid;
             if (address !== '-') ipStatusData[existingEntryIndex].address = address;
             // Update the status based on the new IP
-            ipStatusData[existingEntryIndex].status = await checkUptime(ipStatusData[existingEntryIndex].ip);
+            // ipStatusData[existingEntryIndex].status = await checkUptime(ipStatusData[existingEntryIndex].ip);
+            currentStatus = ipStatusData[existingEntryIndex].status;
+            newStatus = await checkUptime(ipStatusData[existingEntryIndex].ip);
+            if (isNumeric(ipStatusData[existingEntryIndex].status)) {
+                if (newStatus === 'DOWN') {
+                    new DiscordWebhook('Uptime Miko', `${ipStatusData[existingEntryIndex].user}`, `${ipStatusData[existingEntryIndex].ip}`, `${ipStatusData[existingEntryIndex].service}`, `DOWN`, `${ipStatusData[existingEntryIndex].lastdisconnectreason}`, `${ipStatusData[existingEntryIndex].phone}`,`${ipStatusData[existingEntryIndex].address}`, `Please check it ASAP`, 16711680, 'https://ceritabaru.web.id/down.png', false).send();
+                }
+                ipStatusData[existingEntryIndex].status = newStatus;
+            }
+            if (ipStatusData[existingEntryIndex].status === 'DOWN') {
+                if (isNumeric(newStatus)) {
+                    new DiscordWebhook('Uptime Miko', `${ipStatusData[existingEntryIndex].user}`, `${ipStatusData[existingEntryIndex].ip}`, `${ipStatusData[existingEntryIndex].service}`, `UP`, `${ipStatusData[existingEntryIndex].lastdisconnectreason}`, `${ipStatusData[existingEntryIndex].phone}`,`${ipStatusData[existingEntryIndex].address}`, `-`, 65280, 'https://ceritabaru.web.id/up.png', false).send();
+                }
+                ipStatusData[existingEntryIndex].status = newStatus;
+            }
         } else {
             // Entry doesn't exist, add it with an initial status
             const status = await checkUptime(ip);
@@ -235,7 +250,21 @@ io.on('connection', (socket) => {
                 existingEntry.timestamp = Date.now();
 
                 // Update the status based on the new IP
-                ipStatusData[existingEntryIndex].status = await checkUptime(ipStatusData[existingEntryIndex].ip);
+                // ipStatusData[existingEntryIndex].status = await checkUptime(ipStatusData[existingEntryIndex].ip);
+                currentStatus = ipStatusData[existingEntryIndex].status;
+                newStatus = await checkUptime(ipStatusData[existingEntryIndex].ip);
+                if (isNumeric(ipStatusData[existingEntryIndex].status)) {
+                    if (newStatus === 'DOWN') {
+                        new DiscordWebhook('Uptime Miko', `${ipStatusData[existingEntryIndex].user}`, `${ipStatusData[existingEntryIndex].ip}`, `${ipStatusData[existingEntryIndex].service}`, `DOWN`, `${ipStatusData[existingEntryIndex].lastdisconnectreason}`, `${ipStatusData[existingEntryIndex].phone}`,`${ipStatusData[existingEntryIndex].address}`, `Please check it ASAP`, 16711680, 'https://ceritabaru.web.id/down.png', false).send();
+                    }
+                    ipStatusData[existingEntryIndex].status = newStatus;
+                }
+                if (ipStatusData[existingEntryIndex].status === 'DOWN') {
+                    if (isNumeric(newStatus)) {
+                        new DiscordWebhook('Uptime Miko', `${ipStatusData[existingEntryIndex].user}`, `${ipStatusData[existingEntryIndex].ip}`, `${ipStatusData[existingEntryIndex].service}`, `UP`, `${ipStatusData[existingEntryIndex].lastdisconnectreason}`, `${ipStatusData[existingEntryIndex].phone}`,`${ipStatusData[existingEntryIndex].address}`, `-`, 65280, 'https://ceritabaru.web.id/up.png', false).send();
+                    }
+                    ipStatusData[existingEntryIndex].status = newStatus;
+                }
             } else {
                 // Entry doesn't exist, add it with an initial status
                 const status = await checkUptime(ip);
@@ -399,5 +428,9 @@ function saveDataToFile(data) {
 
 function normalizeMacAddress(macAddress) {
     // Remove colons and dashes from MAC address
-    return macAddress.replace(/[:\-]/g, '').toUpperCase();
+    // return macAddress.replace(/[:\-]/g, '').toUpperCase();
+    return macAddress.toUpperCase();
+}
+function isNumeric(value) {
+    return !isNaN(parseFloat(value)) && isFinite(value);
 }
