@@ -356,6 +356,11 @@ const checkAndEmitUptime = async () => {
                 try {
                     const lastStatus = status;
                     const newStatus = await checkUptime(ip);
+                    if (newStatus === 'DOWN') {
+                        console.log(`Uptime for ${user}:`, 'DOWN');
+                    } else {
+                        console.log(`Uptime for ${user}:`, 'UP');
+                    }
                     return { user, lastStatus, newStatus };
                 } catch (error) {
                     // console.error(`Error checking uptime for ${user}:`, error);
@@ -379,7 +384,6 @@ const checkAndEmitUptime = async () => {
                     }
                     ipStatusData[entryIndex].status = newStatus;
                     ipStatusData[entryIndex].timestamp = Date.now();
-                    console.log(`Uptime for ${ipStatusData[entryIndex].user}:`, 'DOWN');
                 }
                 if (lastStatus === 'DOWN') {
                     if (isNumeric(newStatus) && ipStatusData[entryIndex].service !== 'pppoe') {
@@ -387,7 +391,6 @@ const checkAndEmitUptime = async () => {
                     }
                     ipStatusData[entryIndex].status = newStatus;
                     ipStatusData[entryIndex].timestamp = Date.now();
-                    console.log(`Uptime for ${ipStatusData[entryIndex].user}:`, 'UP');
                 }
             } else {
                 console.error(`Entry not found for user ${user}`);
