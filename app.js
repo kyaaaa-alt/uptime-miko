@@ -189,6 +189,11 @@ app.post('/api/updateUserData', async (req, res) => {
         } else {
             // Entry doesn't exist, add it with an initial status
             const status = await checkUptime(ip);
+            if (status === 'DOWN') {
+                new DiscordWebhook('Uptime Miko', `${user}`, `${ip}`, `${service}`, `DOWN`, `${lastdisconnectreason}`, `${phone}`,`${address}`, `Please check it ASAP`, 16711680, 'https://ceritabaru.web.id/down.png', false).send();
+            } else {
+                new DiscordWebhook('Uptime Miko', `${user}`, `${ip}`, `${service}`, `UP`, `${lastdisconnectreason}`, `${phone}`,`${address}`, `-`, 65280, 'https://ceritabaru.web.id/up.png', false).send();
+            }
             ipStatusData.push({
                 user,
                 ip,
@@ -268,6 +273,11 @@ io.on('connection', (socket) => {
             } else {
                 // Entry doesn't exist, add it with an initial status
                 const status = await checkUptime(ip);
+                if (status === 'DOWN') {
+                    new DiscordWebhook('Uptime Miko', `${user}`, `${ip}`, `${service}`, `DOWN`, `${lastdisconnectreason}`, `${phone}`,`${address}`, `Please check it ASAP`, 16711680, 'https://ceritabaru.web.id/down.png', false).send();
+                } else {
+                    new DiscordWebhook('Uptime Miko', `${user}`, `${ip}`, `${service}`, `UP`, `${lastdisconnectreason}`, `${phone}`,`${address}`, `-`, 65280, 'https://ceritabaru.web.id/up.png', false).send();
+                }
                 ipStatusData.push({
                     user,
                     ip,
