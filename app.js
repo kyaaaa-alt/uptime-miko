@@ -52,7 +52,7 @@ app.get('/', authenticate, (req, res) => {
 
 // Manually serve static files
 app.use((req, res, next) => {
-    if (req.url.startsWith('/css') || req.url.startsWith('/js')) {
+    if (req.url.startsWith('/css') || req.url.startsWith('/js') || req.url.startsWith('/img')) {
         // Adjust the path based on your project structure
         res.sendFile(__dirname + '/public' + req.url);
     } else {
