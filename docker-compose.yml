@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  app:
+    image: node:18.12.1-alpine3.17
+    container_name: uptime_miko
+    restart: always
+    working_dir: /usr/src/app
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - "3030:3000"
+    command: sh -c "npm install && npm start"
