@@ -147,10 +147,6 @@ app.post('/api/updateUserData', async (req, res) => {
         const { user, ip, service, phone, lastdisconnectreason, address } = data;
         let { callerid, lastcallerid, lastlogout } = data;
 
-        // Normalize MAC addresses (remove colons or dashes)
-        callerid = normalizeMacAddress(callerid);
-        lastcallerid = normalizeMacAddress(lastcallerid);
-
         // Replace slashes with spaces in the date string
         lastlogout = lastlogout.replace(/\//g, ' ');
 
@@ -319,6 +315,7 @@ io.on('connection', (socket) => {
 });
 
 const checkUptime = async (ip) => {
+    if (ip === '-') return 'DOWN'; // Return DOWN if the IP is not set
     const maxRetries = 1;
     let retryCount = 0;
 
@@ -452,11 +449,6 @@ function saveDataToFile(data) {
     }
 }
 
-function normalizeMacAddress(macAddress) {
-    // Remove colons and dashes from MAC address
-    // return macAddress.replace(/[:\-]/g, '').toUpperCase();
-    return macAddress.toUpperCase();
-}
 function isNumeric(value) {
     return !isNaN(parseFloat(value)) && isFinite(value);
 }
