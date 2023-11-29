@@ -171,24 +171,24 @@ app.post('/api/updateUserData', async (req, res) => {
                     new DiscordWebhook('Uptime Miko', `${ipStatusData[existingEntryIndex].user}`, `${ipStatusData[existingEntryIndex].ip}`, `${ipStatusData[existingEntryIndex].service}`, `DOWN`, `${ipStatusData[existingEntryIndex].lastdisconnectreason}`, `${ipStatusData[existingEntryIndex].phone}`,`${ipStatusData[existingEntryIndex].address}`, `Please check it ASAP`, 16711680, 'https://ceritabaru.web.id/down.png', false).send();
                 }
                 ipStatusData[existingEntryIndex].status = newStatus;
-                console.log(`Uptime for ${ipStatusData[existingEntryIndex].user}:`, newStatus);
+                console.log(`Uptime for ${ipStatusData[existingEntryIndex].user}:`, 'DOWN');
             }
             if (ipStatusData[existingEntryIndex].status === 'DOWN') {
                 if (isNumeric(newStatus)) {
                     new DiscordWebhook('Uptime Miko', `${ipStatusData[existingEntryIndex].user}`, `${ipStatusData[existingEntryIndex].ip}`, `${ipStatusData[existingEntryIndex].service}`, `UP`, `${ipStatusData[existingEntryIndex].lastdisconnectreason}`, `${ipStatusData[existingEntryIndex].phone}`,`${ipStatusData[existingEntryIndex].address}`, `-`, 65280, 'https://ceritabaru.web.id/up.png', false).send();
                 }
                 ipStatusData[existingEntryIndex].status = newStatus;
-                console.log(`Uptime for ${ipStatusData[existingEntryIndex].user}:`, newStatus);
+                console.log(`Uptime for ${ipStatusData[existingEntryIndex].user}:`, 'UP');
             }
         } else {
             // Entry doesn't exist, add it with an initial status
             const status = await checkUptime(ip);
             if (status === 'DOWN') {
                 new DiscordWebhook('Uptime Miko', `${user}`, `${ip}`, `${service}`, `DOWN`, `${lastdisconnectreason}`, `${phone}`,`${address}`, `Please check it ASAP`, 16711680, 'https://ceritabaru.web.id/down.png', false).send();
-                console.log(`Uptime for ${user}:`, status)
+                console.log(`Uptime for ${user}:`, 'DOWN')
             } else {
                 new DiscordWebhook('Uptime Miko', `${user}`, `${ip}`, `${service}`, `UP`, `${lastdisconnectreason}`, `${phone}`,`${address}`, `-`, 65280, 'https://ceritabaru.web.id/up.png', false).send();
-                console.log(`Uptime for ${user}:`, status)
+                console.log(`Uptime for ${user}:`, 'UP')
             }
             ipStatusData.push({
                 user,
@@ -259,22 +259,24 @@ io.on('connection', (socket) => {
                         new DiscordWebhook('Uptime Miko', `${ipStatusData[existingEntryIndex].user}`, `${ipStatusData[existingEntryIndex].ip}`, `${ipStatusData[existingEntryIndex].service}`, `DOWN`, `${ipStatusData[existingEntryIndex].lastdisconnectreason}`, `${ipStatusData[existingEntryIndex].phone}`,`${ipStatusData[existingEntryIndex].address}`, `Please check it ASAP`, 16711680, 'https://ceritabaru.web.id/down.png', false).send();
                     }
                     ipStatusData[existingEntryIndex].status = newStatus;
-                    console.log(`Uptime for ${ipStatusData[existingEntryIndex].user}:`, newStatus);
+                    console.log(`Uptime for ${ipStatusData[existingEntryIndex].user}:`, 'DOWN');
                 }
                 if (ipStatusData[existingEntryIndex].status === 'DOWN') {
                     if (isNumeric(newStatus)) {
                         new DiscordWebhook('Uptime Miko', `${ipStatusData[existingEntryIndex].user}`, `${ipStatusData[existingEntryIndex].ip}`, `${ipStatusData[existingEntryIndex].service}`, `UP`, `${ipStatusData[existingEntryIndex].lastdisconnectreason}`, `${ipStatusData[existingEntryIndex].phone}`,`${ipStatusData[existingEntryIndex].address}`, `-`, 65280, 'https://ceritabaru.web.id/up.png', false).send();
                     }
                     ipStatusData[existingEntryIndex].status = newStatus;
-                    console.log(`Uptime for ${ipStatusData[existingEntryIndex].user}:`, newStatus);
+                    console.log(`Uptime for ${ipStatusData[existingEntryIndex].user}:`, 'UP');
                 }
             } else {
                 // Entry doesn't exist, add it with an initial status
                 const status = await checkUptime(ip);
                 if (status === 'DOWN') {
                     new DiscordWebhook('Uptime Miko', `${user}`, `${ip}`, `${service}`, `DOWN`, `${lastdisconnectreason}`, `${phone}`,`${address}`, `Please check it ASAP`, 16711680, 'https://ceritabaru.web.id/down.png', false).send();
+                    console.log(`Uptime for ${user}:`, 'DOWN')
                 } else {
                     new DiscordWebhook('Uptime Miko', `${user}`, `${ip}`, `${service}`, `UP`, `${lastdisconnectreason}`, `${phone}`,`${address}`, `-`, 65280, 'https://ceritabaru.web.id/up.png', false).send();
+                    console.log(`Uptime for ${user}:`, 'UP')
                 }
                 ipStatusData.push({
                     user,
@@ -377,7 +379,7 @@ const checkAndEmitUptime = async () => {
                     }
                     ipStatusData[entryIndex].status = newStatus;
                     ipStatusData[entryIndex].timestamp = Date.now();
-                    console.log(`Uptime for ${ipStatusData[entryIndex].user}:`, newStatus);
+                    console.log(`Uptime for ${ipStatusData[entryIndex].user}:`, 'DOWN');
                 }
                 if (lastStatus === 'DOWN') {
                     if (isNumeric(newStatus) && ipStatusData[entryIndex].service !== 'pppoe') {
@@ -385,7 +387,7 @@ const checkAndEmitUptime = async () => {
                     }
                     ipStatusData[entryIndex].status = newStatus;
                     ipStatusData[entryIndex].timestamp = Date.now();
-                    console.log(`Uptime for ${ipStatusData[entryIndex].user}:`, newStatus);
+                    console.log(`Uptime for ${ipStatusData[entryIndex].user}:`, 'UP');
                 }
             } else {
                 console.error(`Entry not found for user ${user}`);
