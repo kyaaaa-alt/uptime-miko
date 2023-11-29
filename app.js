@@ -47,7 +47,6 @@ const authenticate = (req, res, next) => {
 
 // Protected route
 app.get('/', authenticate, (req, res) => {
-    console.log('Authenticated user:', req.session.authenticated);
     res.sendFile(__dirname + '/public/index.html');
 });
 
@@ -78,8 +77,6 @@ app.post('/authenticate', (req, res) => {
     // Check your username and password (replace this with your actual authentication logic)
     if (username === configData.usernamelogin && password === configData.passwordlogin) {
         req.session.authenticated = true; // Mark the session as authenticated
-        console.log('User authenticated:', username);
-        console.log('Session after authentication:', req.session);
         res.redirect('/'); // Redirect to the root page after successful authentication
     } else {
         // Redirect to the login page if authentication fails with alert
@@ -94,7 +91,6 @@ app.get('/api/getConfig', (req, res) => {
 // Listen for form submissions from the configuration modal
 app.post('/api/updateConfig', (req, res) => {
     const config = req.body;
-    console.log('Received data:', config);
 
     // Update the configData object
     configData = { ...config };
@@ -155,7 +151,7 @@ app.post('/api/updateUserData', async (req, res) => {
 
         if (existingEntryIndex !== -1) {
             // Entry already exists, update it
-            console.log(`Entry already exists for user ${user}, updating...`);
+            // console.log(`Entry already exists for user ${user}, updating...`);
             // Check if each field has a value other than "-"
             if (user !== '-') ipStatusData[existingEntryIndex].user = user;
             if (ip !== '-') ipStatusData[existingEntryIndex].ip = ip;
@@ -175,20 +171,24 @@ app.post('/api/updateUserData', async (req, res) => {
                     new DiscordWebhook('Uptime Miko', `${ipStatusData[existingEntryIndex].user}`, `${ipStatusData[existingEntryIndex].ip}`, `${ipStatusData[existingEntryIndex].service}`, `DOWN`, `${ipStatusData[existingEntryIndex].lastdisconnectreason}`, `${ipStatusData[existingEntryIndex].phone}`,`${ipStatusData[existingEntryIndex].address}`, `Please check it ASAP`, 16711680, 'https://ceritabaru.web.id/down.png', false).send();
                 }
                 ipStatusData[existingEntryIndex].status = newStatus;
+                console.log(`Uptime for ${ipStatusData[existingEntryIndex].user}:`, newStatus);
             }
             if (ipStatusData[existingEntryIndex].status === 'DOWN') {
                 if (isNumeric(newStatus)) {
                     new DiscordWebhook('Uptime Miko', `${ipStatusData[existingEntryIndex].user}`, `${ipStatusData[existingEntryIndex].ip}`, `${ipStatusData[existingEntryIndex].service}`, `UP`, `${ipStatusData[existingEntryIndex].lastdisconnectreason}`, `${ipStatusData[existingEntryIndex].phone}`,`${ipStatusData[existingEntryIndex].address}`, `-`, 65280, 'https://ceritabaru.web.id/up.png', false).send();
                 }
                 ipStatusData[existingEntryIndex].status = newStatus;
+                console.log(`Uptime for ${ipStatusData[existingEntryIndex].user}:`, newStatus);
             }
         } else {
             // Entry doesn't exist, add it with an initial status
             const status = await checkUptime(ip);
             if (status === 'DOWN') {
                 new DiscordWebhook('Uptime Miko', `${user}`, `${ip}`, `${service}`, `DOWN`, `${lastdisconnectreason}`, `${phone}`,`${address}`, `Please check it ASAP`, 16711680, 'https://ceritabaru.web.id/down.png', false).send();
+                console.log(`Uptime for ${user}:`, status)
             } else {
                 new DiscordWebhook('Uptime Miko', `${user}`, `${ip}`, `${service}`, `UP`, `${lastdisconnectreason}`, `${phone}`,`${address}`, `-`, 65280, 'https://ceritabaru.web.id/up.png', false).send();
+                console.log(`Uptime for ${user}:`, status)
             }
             ipStatusData.push({
                 user,
@@ -222,12 +222,12 @@ app.post('/api/updateUserData', async (req, res) => {
 
 // Listen for form submissions
 io.on('connection', (socket) => {
-    console.log('A user connected');
+    // console.log('A user connected');
 
     socket.emit('initialData', ipStatusData);
 
     socket.on('modifyDatabase', async (data) => {
-        console.log('Received form data:', data);
+        // console.log('Received form data:', data);
 
         const { user, ip, service, status, phone, callerid, lastlogout, lastdisconnectreason, lastcallerid, address, timestamp } = data;
 
@@ -237,7 +237,7 @@ io.on('connection', (socket) => {
 
             if (existingEntryIndex !== -1) {
                 // Entry already exists, update it without modifying certain fields
-                console.log(`Entry already exists for user ${user}, updating...`);
+                // console.log(`Entry already exists for user ${user}, updating...`);
                 const existingEntry = ipStatusData[existingEntryIndex];
                 if (user !== '') ipStatusData[existingEntryIndex].user = user;
                 if (ip !== '') ipStatusData[existingEntryIndex].ip = ip;
@@ -259,12 +259,14 @@ io.on('connection', (socket) => {
                         new DiscordWebhook('Uptime Miko', `${ipStatusData[existingEntryIndex].user}`, `${ipStatusData[existingEntryIndex].ip}`, `${ipStatusData[existingEntryIndex].service}`, `DOWN`, `${ipStatusData[existingEntryIndex].lastdisconnectreason}`, `${ipStatusData[existingEntryIndex].phone}`,`${ipStatusData[existingEntryIndex].address}`, `Please check it ASAP`, 16711680, 'https://ceritabaru.web.id/down.png', false).send();
                     }
                     ipStatusData[existingEntryIndex].status = newStatus;
+                    console.log(`Uptime for ${ipStatusData[existingEntryIndex].user}:`, newStatus);
                 }
                 if (ipStatusData[existingEntryIndex].status === 'DOWN') {
                     if (isNumeric(newStatus)) {
                         new DiscordWebhook('Uptime Miko', `${ipStatusData[existingEntryIndex].user}`, `${ipStatusData[existingEntryIndex].ip}`, `${ipStatusData[existingEntryIndex].service}`, `UP`, `${ipStatusData[existingEntryIndex].lastdisconnectreason}`, `${ipStatusData[existingEntryIndex].phone}`,`${ipStatusData[existingEntryIndex].address}`, `-`, 65280, 'https://ceritabaru.web.id/up.png', false).send();
                     }
                     ipStatusData[existingEntryIndex].status = newStatus;
+                    console.log(`Uptime for ${ipStatusData[existingEntryIndex].user}:`, newStatus);
                 }
             } else {
                 // Entry doesn't exist, add it with an initial status
@@ -332,7 +334,7 @@ const checkUptime = async (ip) => {
                 retryCount++;
             }
         } catch (error) {
-            console.error(`Uptime for ${ip}:`, error);
+            // console.error(`Uptime for ${ip}:`, error);
             return 'DOWN'; // Assume the status is down if there is an error
         }
     }
@@ -354,9 +356,9 @@ const checkAndEmitUptime = async () => {
                     const newStatus = await checkUptime(ip);
                     return { user, lastStatus, newStatus };
                 } catch (error) {
-                    console.error(`Error checking uptime for ${user}:`, error);
+                    // console.error(`Error checking uptime for ${user}:`, error);
                     // Return a placeholder value or handle the error as needed
-                    return { user, status: 'ERROR' };
+                    return { user, status: 'DOWN' };
                 }
             })
         );
@@ -375,6 +377,7 @@ const checkAndEmitUptime = async () => {
                     }
                     ipStatusData[entryIndex].status = newStatus;
                     ipStatusData[entryIndex].timestamp = Date.now();
+                    console.log(`Uptime for ${ipStatusData[entryIndex].user}:`, newStatus);
                 }
                 if (lastStatus === 'DOWN') {
                     if (isNumeric(newStatus) && ipStatusData[entryIndex].service !== 'pppoe') {
@@ -382,6 +385,7 @@ const checkAndEmitUptime = async () => {
                     }
                     ipStatusData[entryIndex].status = newStatus;
                     ipStatusData[entryIndex].timestamp = Date.now();
+                    console.log(`Uptime for ${ipStatusData[entryIndex].user}:`, newStatus);
                 }
             } else {
                 console.error(`Entry not found for user ${user}`);
@@ -433,7 +437,7 @@ function readConfigFile() {
 function saveConfigToFile(config) {
     try {
         fs.writeFileSync(configFilePath, JSON.stringify(config, null, 2), 'utf8');
-        console.log('Config saved to file successfully!');
+        // console.log('Config saved to file successfully!');
     } catch (error) {
         console.error('Error saving config to file:', error);
     }
@@ -443,7 +447,7 @@ function saveConfigToFile(config) {
 function saveDataToFile(data) {
     try {
         fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), 'utf8');
-        console.log('Check and emit done... Data saved to file successfully!');
+        // console.log('Check and emit done... Data saved to file successfully!');
     } catch (error) {
         console.error('Error saving data to file:', error);
     }
