@@ -318,8 +318,8 @@ const checkUptime = async (ip) => {
             const result = await Promise.race([pingPromise, new Promise((_, reject) => setTimeout(() => reject('Timeout'), 3000))]);
 
             if (result) {
-                console.log(`Uptime for ${ip}:`, result.avg);
-                return result.avg; // Return the round-trip time if the host is reachable
+                console.log(`Uptime for ${ip}:`, result.time);
+                return result.time; // Return the round-trip time if the host is reachable
             } else {
                 console.log(`Retrying for ${ip}...`);
                 retryCount++;
