@@ -65,6 +65,12 @@ app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/public/login.html');
 });
 
+// Logout route
+app.get('/logout', (req, res) => {
+    req.session.destroy(); // Destroy the session
+    res.redirect('/login'); // Redirect to the login page
+});
+
 app.post('/authenticate', (req, res) => {
     const { username, password } = req.body;
 
@@ -75,7 +81,8 @@ app.post('/authenticate', (req, res) => {
         console.log('Session after authentication:', req.session);
         res.redirect('/'); // Redirect to the root page after successful authentication
     } else {
-        res.send('Invalid username or password');
+        // Redirect to the login page if authentication fails with alert
+        res.send('<script>alert("Invalid username or password"); window.location.href = "/login";</script>');
     }
 });
 
