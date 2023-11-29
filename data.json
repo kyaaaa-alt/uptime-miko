@@ -2,15 +2,15 @@
   {
     "user": "stb",
     "ip": "192.168.1.252",
-    "service": "pppoe",
-    "status": "1.000",
+    "service": "static",
+    "status": "0.000",
     "phone": "085867540075",
     "callerid": "78:98:E8:07:93:EC",
     "lastlogout": "nov 28 2023 00:10:11",
     "lastdisconnectreason": "nas-request",
     "lastcallerid": "5C:92:5E:7F:53:20",
     "address": "aaaa",
-    "timestamp": 1701227374357
+    "timestamp": 1701228594102
   },
   {
     "user": "sp08mila",
@@ -23,7 +23,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFC5F8AAA",
     "address": "-",
-    "timestamp": 1701227374357
+    "timestamp": 1701228594102
   },
   {
     "user": "doaibu",
@@ -36,7 +36,7 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFCE00BB9",
     "address": "-",
-    "timestamp": 1701227374357
+    "timestamp": 1701228594102
   },
   {
     "user": "sp20eniriyan",
@@ -49,6 +49,19 @@
     "lastdisconnectreason": "hung-up",
     "lastcallerid": "E01CFCDD7431",
     "address": "-",
-    "timestamp": 1701227374357
+    "timestamp": 1701228594102
+  },
+  {
+    "user": "test",
+    "ip": "172.22.22.247",
+    "service": "any",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "172.22.22.2",
+    "lastlogout": "nov 28 2023 20:10:03",
+    "lastdisconnectreason": "peer-request",
+    "lastcallerid": "172.22.22.2",
+    "address": "-",
+    "timestamp": 1701228594102
   }
 ]

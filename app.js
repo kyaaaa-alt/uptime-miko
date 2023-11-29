@@ -341,10 +341,11 @@ const checkAndEmitUptime = async () => {
         // Use Promise.all to execute all checkUptime calls in parallel
         const results = await Promise.all(
             ipStatusData.map(async (entry) => {
-                const { user, ip } = entry;
+                const { user, ip, status } = entry;
                 try {
-                    const status = await checkUptime(ip);
-                    return { user, status };
+                    const lastStatus = status;
+                    const newStatus = await checkUptime(ip);
+                    return { user, lastStatus, newStatus };
                 } catch (error) {
                     console.error(`Error checking uptime for ${user}:`, error);
                     // Return a placeholder value or handle the error as needed
@@ -355,11 +356,26 @@ const checkAndEmitUptime = async () => {
 
         // Update ipStatusData based on the results
         for (const result of results) {
-            const { user, status } = result;
+            const { user, lastStatus, newStatus } = result;
             const entryIndex = ipStatusData.findIndex((e) => e.user === user);
             if (entryIndex !== -1) {
-                ipStatusData[entryIndex].status = status;
-                ipStatusData[entryIndex].timestamp = Date.now();
+                // ipStatusData[entryIndex].status = newStatus;
+                // ipStatusData[entryIndex].timestamp = Date.now();
+                currentStatus = ipStatusData[entryIndex].status;
+                if (isNumeric(lastStatus)) {
+                    if (newStatus === 'DOWN' && ipStatusData[entryIndex].service !== 'pppoe') {
+                        new DiscordWebhook('Uptime Miko', `${ipStatusData[entryIndex].user}`, `${ipStatusData[entryIndex].ip}`, `${ipStatusData[entryIndex].service}`, `DOWN`, `${ipStatusData[entryIndex].lastdisconnectreason}`, `${ipStatusData[entryIndex].phone}`,`${ipStatusData[entryIndex].address}`, `Please check it ASAP`, 16711680, 'https://ceritabaru.web.id/down.png', false).send();
+                    }
+                    ipStatusData[entryIndex].status = newStatus;
+                    ipStatusData[entryIndex].timestamp = Date.now();
+                }
+                if (lastStatus === 'DOWN') {
+                    if (isNumeric(newStatus) && ipStatusData[entryIndex].service !== 'pppoe') {
+                        new DiscordWebhook('Uptime Miko', `${ipStatusData[entryIndex].user}`, `${ipStatusData[entryIndex].ip}`, `${ipStatusData[entryIndex].service}`, `UP`, `${ipStatusData[entryIndex].lastdisconnectreason}`, `${ipStatusData[entryIndex].phone}`,`${ipStatusData[entryIndex].address}`, `-`, 65280, 'https://ceritabaru.web.id/up.png', false).send();
+                    }
+                    ipStatusData[entryIndex].status = newStatus;
+                    ipStatusData[entryIndex].timestamp = Date.now();
+                }
             } else {
                 console.error(`Entry not found for user ${user}`);
             }
