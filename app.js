@@ -136,7 +136,7 @@ app.post('/api/deleteUserData', (req, res) => {
 
 // Listen for form submissions from MikroTik
 app.post('/api/updateUserData', async (req, res) => {
-    console.log('Received form api:', req.body);
+    console.log('Received submission from api:', req.body);
 
     try {
         const data = req.body;
@@ -227,7 +227,7 @@ io.on('connection', (socket) => {
     socket.emit('initialData', ipStatusData);
 
     socket.on('modifyDatabase', async (data) => {
-        // console.log('Received form data:', data);
+        console.log('Received submission from website: ', data);
 
         const { user, ip, service, status, phone, callerid, lastlogout, lastdisconnectreason, lastcallerid, address, timestamp } = data;
 
