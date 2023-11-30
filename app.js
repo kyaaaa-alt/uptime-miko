@@ -356,11 +356,6 @@ const checkAndEmitUptime = async () => {
                 try {
                     const lastStatus = status;
                     const newStatus = await checkUptime(ip);
-                    if (newStatus === 'DOWN') {
-                        console.log(`Uptime for ${user}:`, 'DOWN');
-                    } else {
-                        console.log(`Uptime for ${user}:`, 'UP');
-                    }
                     return { user, lastStatus, newStatus };
                 } catch (error) {
                     // console.error(`Error checking uptime for ${user}:`, error);

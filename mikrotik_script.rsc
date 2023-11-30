@@ -1,7 +1,7 @@
 # login
 
 :local min_delay 5;
-:local max_delay 20;
+:local max_delay 10;
 :local random_delay [:rand $min_delay $max_delay];
 :delay $random_delay;
 
@@ -15,13 +15,15 @@
 :local ppplastpppcallerid [/ppp secret get [find name=$pppuser] last-caller-id];
 :local clientaddress "-";
 
+:log warning "pppoe $pppuser is login in and reported to uptime miko";
+
 :local url "https://miko.sultankhilove.biz.id/api/updateUserData";
 /tool fetch url=$url mode=http http-method=post http-data=("user=" . $pppuser . "&ip=" . $pppip . "&service=" . $pppservice . "&phone=" . $clientphone . "&callerid=" . $pppcallerid . "&lastlogout=" . $ppplastlogout . "&lastdisconnectreason=" . $ppplastdisconnectreason . "&lastpppcallerid=" . $ppplastpppcallerid . "&address=" . $clientaddress) http-header="Content-Type: application/x-www-form-urlencoded" keep-result=no;
-:log warning "( $user ) pppoe on login triggered";
+
 
   # logout
-:local min_delay 5;
-:local max_delay 20;
+:local min_delay 1;
+:local max_delay 4;
 :local random_delay [:rand $min_delay $max_delay];
 :delay $random_delay;
 
@@ -35,7 +37,9 @@
 :local ppplastpppcallerid [/ppp secret get [find name=$pppuser] last-caller-id];
 :local clientaddress "-";
 
+:log warning "pppoe $pppuser is logout and reported to uptime miko";
+
 :local url "https://miko.sultankhilove.biz.id/api/updateUserData";
 /tool fetch url=$url mode=http http-method=post http-data=("user=" . $pppuser . "&ip=" . $pppip . "&service=" . $pppservice . "&phone=" . $clientphone . "&callerid=" . $pppcallerid . "&lastlogout=" . $ppplastlogout . "&lastdisconnectreason=" . $ppplastdisconnectreason . "&lastpppcallerid=" . $ppplastpppcallerid . "&address=" . $clientaddress) http-header="Content-Type: application/x-www-form-urlencoded" keep-result=no;
-:log warning "( $user ) pppoe on logout triggered";
+
 
