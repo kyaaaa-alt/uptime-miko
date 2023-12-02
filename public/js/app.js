@@ -149,8 +149,8 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        document.getElementById('onlineCount').innerText = activeUsersCount + ' (Online)';
-        document.getElementById('offlineCount').innerText = downUsersCount + ' (Offline)';
+        document.getElementById('onlineCount').innerText = activeUsersCount + ' UP';
+        document.getElementById('offlineCount').innerText = downUsersCount + ' DOWN';
 
         data.sort((a, b) => {
             if (a.status === 'DOWN' && b.status !== 'DOWN') {
@@ -177,14 +177,14 @@ document.addEventListener('DOMContentLoaded', () => {
             cardBody.className = 'card-body d-flex justify-content-between align-items-center';
 
             // Add content to the card body
-            cardBody.innerHTML = `<span><strong>${user}</strong> (${ip})</span>`;
+            cardBody.innerHTML = `<span class="nama"><strong>${user}</strong> (${ip})</span>`;
 
             // Create a new div for badge and delete button
             const badgeAndButtonDiv = document.createElement('div');
             badgeAndButtonDiv.className = 'd-flex align-items-center';
 
             // Add the badge to the new div
-            badgeAndButtonDiv.innerHTML += `<span class="badge rounded-pill text-bg-${status !== 'DOWN' ? 'success' : 'danger'}">${status !== 'DOWN' ? convertToMilliseconds(status) : lastdisconnectreason}</span>`;
+            badgeAndButtonDiv.innerHTML += `<span class="badge state rounded-pill text-bg-${status !== 'DOWN' ? 'success' : 'danger'}">${status !== 'DOWN' ? convertToMilliseconds(status) : lastdisconnectreason}</span>`;
 
             // Add the delete button to the new div
             badgeAndButtonDiv.appendChild(createDeleteButton(user));
@@ -201,6 +201,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Add the new card to the list
             ipList.appendChild(card);
+            var options = {
+                valueNames: ['nama', 'state']
+            };
+            var dataList = new List('container', options);
         });
     }
 
