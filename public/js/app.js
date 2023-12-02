@@ -316,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <p><strong>Last Logout:</strong> ${user.lastlogout}</p>
                 <p><strong>Last Disconnect Reason:</strong> ${user.lastdisconnectreason}</p>
                 <p><strong>Last Caller ID:</strong> ${user.lastcallerid}</p>
-                <p><strong>Address:</strong> ${user.address}</p>
+                <p><strong>Location:</strong> ${user.address}</p>
             `;
 
                 // Show the modal
