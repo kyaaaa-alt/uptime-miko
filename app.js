@@ -157,7 +157,13 @@ app.post('/api/updateUserData', async (req, res) => {
             // console.log(`Entry already exists for user ${user}, updating...`);
             // Check if each field has a value other than "-"
             if (user !== '-') ipStatusData[existingEntryIndex].user = user;
-            if (ip !== '-') ip = 'logout';
+            if (ip === '-') {
+                newIP = 'logout';
+                ipStatusData[existingEntryIndex].ip = newIP;
+            } else {
+                newIP = ip;
+                ipStatusData[existingEntryIndex].ip = newIP;
+            }
             if (service !== '-') ipStatusData[existingEntryIndex].service = service;
             if (phone !== '-') ipStatusData[existingEntryIndex].phone = phone;
             if (callerid !== '-') ipStatusData[existingEntryIndex].callerid = callerid;
@@ -168,7 +174,9 @@ app.post('/api/updateUserData', async (req, res) => {
             // Update the status based on the new IP
             // ipStatusData[existingEntryIndex].status = await checkUptime(ipStatusData[existingEntryIndex].ip);
             currentStatus = ipStatusData[existingEntryIndex].status;
-            newStatus = await checkUptime(ipStatusData[existingEntryIndex].ip);
+            newStatus = await checkUptime(newIP);
+            console.log('currentStatus: ', currentStatus);
+            console.log('newStatus: ', newStatus);
             if (isNumeric(ipStatusData[existingEntryIndex].status)) {
                 if (newStatus === 'DOWN') {
                     webhookTimeout = setTimeout(() => {
@@ -340,7 +348,8 @@ io.on('connection', (socket) => {
 });
 
 const checkUptime = async (ip) => {
-    if (ip === '-' || ip === 'logout') return 'DOWN'; // Return DOWN if the IP is not set
+    if (ip === '-') return 'DOWN'; // Return DOWN if the IP is not set
+    if (ip === 'logout') return 'DOWN'; // Return DOWN if the IP is not set
     const maxRetries = 1;
     let retryCount = 0;
 
