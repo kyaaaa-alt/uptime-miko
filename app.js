@@ -175,8 +175,6 @@ app.post('/api/updateUserData', async (req, res) => {
             // ipStatusData[existingEntryIndex].status = await checkUptime(ipStatusData[existingEntryIndex].ip);
             currentStatus = ipStatusData[existingEntryIndex].status;
             newStatus = await checkUptime(newIP);
-            console.log('currentStatus: ', currentStatus);
-            console.log('newStatus: ', newStatus);
             if (isNumeric(ipStatusData[existingEntryIndex].status)) {
                 if (newStatus === 'DOWN') {
                     webhookTimeout = setTimeout(() => {
