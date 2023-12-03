@@ -353,7 +353,7 @@ const checkUptime = async (ip) => {
 
     while (retryCount < maxRetries) {
         try {
-            const pingPromise = ping.promise.probe(ip, { timeout: 3000, min_reply: 1 });
+            const pingPromise = ping.promise.probe(ip, { timeout: 3500, min_reply: 1 });
             const result = await Promise.race([pingPromise, new Promise((_, reject) => setTimeout(() => reject('Timeout'), 3500))]);
 
             if (result) {
@@ -411,6 +411,7 @@ const checkAndEmitUptime = async () => {
                         }, randomDelay(1000, 2000));
                     }
                     ipStatusData[entryIndex].status = newStatus;
+                    ipStatusData[entryIndex].lastdisconnectreason = 'timeout';
                     ipStatusData[entryIndex].timestamp = Date.now();
                 }
                 if (lastStatus === 'DOWN') {
@@ -438,7 +439,7 @@ const checkAndEmitUptime = async () => {
 // Call the function once on startup
 checkAndEmitUptime();
 // Implement logic for checking and emitting IP uptime status
-setInterval(checkAndEmitUptime, 60000);
+setInterval(checkAndEmitUptime, 45000);
 
 const PORT = process.env.PORT || 3000;
 
