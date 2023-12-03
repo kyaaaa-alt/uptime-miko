@@ -353,8 +353,8 @@ const checkUptime = async (ip) => {
 
     while (retryCount < maxRetries) {
         try {
-            const pingPromise = ping.promise.probe(ip, { timeout: 200, min_reply: 3 });
-            const result = await Promise.race([pingPromise, new Promise((_, reject) => setTimeout(() => reject('Timeout'), 3000))]);
+            const pingPromise = ping.promise.probe(ip, { timeout: 3000, min_reply: 1 });
+            const result = await Promise.race([pingPromise, new Promise((_, reject) => setTimeout(() => reject('Timeout'), 3500))]);
 
             if (result) {
                 // console.log(`Uptime for ${ip}:`, result.time);
@@ -409,18 +409,18 @@ const checkAndEmitUptime = async () => {
                         webhookTimeout = setTimeout(() => {
                             new DiscordWebhook('Uptime Miko', `${ipStatusData[entryIndex].user}`, `${ipStatusData[entryIndex].ip}`, `${ipStatusData[entryIndex].service}`, `DOWN`, `${ipStatusData[entryIndex].lastdisconnectreason}`, `${ipStatusData[entryIndex].phone}`,`${ipStatusData[entryIndex].address}`, `Please check it ASAP`, 16711680, 'https://ceritabaru.web.id/down.png', false).send();
                         }, randomDelay(1000, 2000));
-                        ipStatusData[entryIndex].status = newStatus;
-                        ipStatusData[entryIndex].timestamp = Date.now();
                     }
+                    ipStatusData[entryIndex].status = newStatus;
+                    ipStatusData[entryIndex].timestamp = Date.now();
                 }
                 if (lastStatus === 'DOWN') {
                     if (isNumeric(newStatus) && ipStatusData[entryIndex].service !== 'pppoe') {
                         webhookTimeout = setTimeout(() => {
                             new DiscordWebhook('Uptime Miko', `${ipStatusData[entryIndex].user}`, `${ipStatusData[entryIndex].ip}`, `${ipStatusData[entryIndex].service}`, `UP`, `${ipStatusData[entryIndex].lastdisconnectreason}`, `${ipStatusData[entryIndex].phone}`,`${ipStatusData[entryIndex].address}`, `-`, 65280, 'https://ceritabaru.web.id/up.png', false).send();
                         }, randomDelay(1000, 2000));
-                        ipStatusData[entryIndex].status = newStatus;
-                        ipStatusData[entryIndex].timestamp = Date.now();
                     }
+                    ipStatusData[entryIndex].status = newStatus;
+                    ipStatusData[entryIndex].timestamp = Date.now();
                 }
             } else {
                 console.error(`Entry not found for user ${user}`);
