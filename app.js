@@ -17,32 +17,28 @@ app.use(cors({ origin: '*' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// Path to the data file
 const dataFilePath = 'data.json';
 const configFilePath = 'config.json';
 
-// Read initial data from the file or create an empty array
 let ipStatusData = readDataFile() || [];
-let configData = readConfigFile() || {};
+let configData = readConfigFile();
 let webhookTimeout;
 
-// Set up session middleware with express-session-file-store as the session store
 app.use(
     session({
-        secret: 'uptimemiko', // Change this to a strong, random string
+        secret: 'uptimemiko',
         resave: false,
         saveUninitialized: true,
         store: new FileStore(),
         cookie: { maxAge: 2629800000 }
     })
 );
-// Authenticate middleware
+
 const authenticate = (req, res, next) => {
-    // Check if the user is authenticated (customize based on your logic)
     if (req.session && req.session.authenticated) {
-        return next(); // User is authenticated, continue to the next middleware
+        return next();
     } else {
-        res.redirect('/login'); // Redirect to the login page if not authenticated
+        res.redirect('/login');
     }
 };
 
@@ -51,31 +47,25 @@ app.get('/', authenticate, (req, res) => {
     res.sendFile(__dirname + '/public/index.html');
 });
 
-// Manually serve static files
 app.use((req, res, next) => {
     if (req.url.startsWith('/css') || req.url.startsWith('/js') || req.url.startsWith('/img')) {
-        // Adjust the path based on your project structure
         res.sendFile(__dirname + '/public' + req.url);
     } else {
         next();
     }
 });
 
-// Login route
 app.get('/login', (req, res) => {
     res.sendFile(__dirname + '/public/login.html');
 });
 
-// Logout route
 app.get('/logout', (req, res) => {
-    req.session.destroy(); // Destroy the session
-    res.redirect('/login'); // Redirect to the login page
+    req.session.destroy();
+    res.redirect('/login');
 });
 
 app.post('/authenticate', (req, res) => {
     const { username, password } = req.body;
-
-    // Check your username and password (replace this with your actual authentication logic)
     if (username === configData.usernamelogin && password === configData.passwordlogin) {
         req.session.authenticated = true; // Mark the session as authenticated
         res.redirect('/'); // Redirect to the root page after successful authentication
@@ -89,19 +79,11 @@ app.get('/api/getConfig', (req, res) => {
     res.json(configData);
 });
 
-// Listen for form submissions from the configuration modal
 app.post('/api/updateConfig', (req, res) => {
     const config = req.body;
-
-    // Update the configData object
     configData = { ...config };
-
-    // Save the config data to the file
     saveConfigToFile(configData);
-
-    // Emit the updated config data to all clients
     io.emit('configData', configData);
-
     res.json({ success: true, message: 'Config updated successfully' });
 });
 
@@ -122,20 +104,13 @@ function getUsernames() {
 
 app.post('/api/deleteUserData', (req, res) => {
     const usernameToDelete = req.body.username;
-
-    // Remove the entry from the ipStatusData array
     ipStatusData = ipStatusData.filter(entry => entry.user !== usernameToDelete);
-
-    // Save the updated data to the file
     saveDataToFile(ipStatusData);
-
-    // Emit the updated data to all clients
     io.emit('ipStatus', ipStatusData);
 
     res.json({ success: true, message: 'Data deleted successfully' });
 });
 
-// Listen for form submissions from MikroTik
 app.post('/api/updateUserData', async (req, res) => {
     console.log('Received submission from api:', req.body);
     if (webhookTimeout) {
@@ -145,17 +120,10 @@ app.post('/api/updateUserData', async (req, res) => {
         const data = req.body;
         const { user, ip, service, phone, lastdisconnectreason, address } = data;
         let { callerid, lastcallerid, lastlogout } = data;
-
-        // Replace slashes with spaces in the date string
         lastlogout = lastlogout.replace(/\//g, ' ');
-
-        // Your existing logic for updating or adding user data goes here
         const existingEntryIndex = ipStatusData.findIndex(entry => entry.user === user);
 
         if (existingEntryIndex !== -1) {
-            // Entry already exists, update it
-            // console.log(`Entry already exists for user ${user}, updating...`);
-            // Check if each field has a value other than "-"
             if (user !== '-') ipStatusData[existingEntryIndex].user = user;
             if (ip === '-') {
                 newIP = 'logout';
@@ -171,8 +139,7 @@ app.post('/api/updateUserData', async (req, res) => {
             if (lastdisconnectreason !== '-') ipStatusData[existingEntryIndex].lastdisconnectreason = lastdisconnectreason;
             if (lastcallerid !== '-') ipStatusData[existingEntryIndex].lastcallerid = lastcallerid;
             if (address !== '-') ipStatusData[existingEntryIndex].address = address;
-            // Update the status based on the new IP
-            // ipStatusData[existingEntryIndex].status = await checkUptime(ipStatusData[existingEntryIndex].ip);
+
             currentStatus = ipStatusData[existingEntryIndex].status;
             newStatus = await checkUptime(newIP);
             if (isNumeric(ipStatusData[existingEntryIndex].status)) {
@@ -194,7 +161,6 @@ app.post('/api/updateUserData', async (req, res) => {
                 }
             }
         } else {
-            // Entry doesn't exist, add it with an initial status
             const status = await checkUptime(ip);
             if (status === 'DOWN') {
                 webhookTimeout = setTimeout(() => {
@@ -222,13 +188,8 @@ app.post('/api/updateUserData', async (req, res) => {
             });
         }
 
-        // Save the data to the file
         saveDataToFile(ipStatusData);
-
-        // Emit the updated data to all clients
         io.emit('ipStatus', ipStatusData);
-
-        // Send a response back to MikroTik
         res.json({ success: true, message: 'Data updated successfully' });
     } catch (error) {
         console.error('Error updating data:', error);
@@ -237,12 +198,8 @@ app.post('/api/updateUserData', async (req, res) => {
     }
 });
 
-// Listen for form submissions
 io.on('connection', (socket) => {
-    // console.log('A user connected');
-
     socket.emit('initialData', ipStatusData);
-
     socket.on('modifyDatabase', async (data) => {
         console.log('Received submission from website: ', data);
         if (webhookTimeout) {
@@ -251,12 +208,9 @@ io.on('connection', (socket) => {
         const { user, ip, service, status, phone, callerid, lastlogout, lastdisconnectreason, lastcallerid, address, timestamp } = data;
 
         try {
-            // Check if the entry already exists for the user
             const existingEntryIndex = ipStatusData.findIndex(entry => entry.user === user);
 
             if (existingEntryIndex !== -1) {
-                // Entry already exists, update it without modifying certain fields
-                // console.log(`Entry already exists for user ${user}, updating...`);
                 const existingEntry = ipStatusData[existingEntryIndex];
                 if (user !== '') ipStatusData[existingEntryIndex].user = user;
                 if (ip !== '') ipStatusData[existingEntryIndex].ip = ip;
@@ -269,8 +223,6 @@ io.on('connection', (socket) => {
                 if (address !== '') ipStatusData[existingEntryIndex].address = address;
                 existingEntry.timestamp = Date.now();
 
-                // Update the status based on the new IP
-                // ipStatusData[existingEntryIndex].status = await checkUptime(ipStatusData[existingEntryIndex].ip);
                 currentStatus = ipStatusData[existingEntryIndex].status;
                 newStatus = await checkUptime(ipStatusData[existingEntryIndex].ip);
                 if (isNumeric(ipStatusData[existingEntryIndex].status)) {
@@ -292,7 +244,6 @@ io.on('connection', (socket) => {
                     }
                 }
             } else {
-                // Entry doesn't exist, add it with an initial status
                 const status = await checkUptime(ip);
                 if (status === 'DOWN') {
                     webhookTimeout = setTimeout(() => {
@@ -320,10 +271,7 @@ io.on('connection', (socket) => {
                 });
             }
 
-            // Save the data to the file
             saveDataToFile(ipStatusData);
-
-            // Emit the updated data to all clients
             io.emit('ipStatus', ipStatusData);
             io.emit('dataSaved', getUsernames());
         } catch (error) {
@@ -333,21 +281,15 @@ io.on('connection', (socket) => {
 
     socket.on('deleteDatabase', (data) => {
         const { username } = data;
-
-        // Remove the entry from the ipStatusData array
         ipStatusData = ipStatusData.filter(entry => entry.user !== username);
-
-        // Save the updated data to the file
         saveDataToFile(ipStatusData);
-
-        // Emit the updated data to all clients
         io.emit('ipStatus', ipStatusData);
     });
 });
 
 const checkUptime = async (ip) => {
-    if (ip === '-') return 'DOWN'; // Return DOWN if the IP is not set
-    if (ip === 'logout') return 'DOWN'; // Return DOWN if the IP is not set
+    if (ip === '-') return 'DOWN';
+    if (ip === 'logout') return 'DOWN';
     const maxRetries = 1;
     let retryCount = 0;
 
@@ -357,19 +299,16 @@ const checkUptime = async (ip) => {
             const result = await Promise.race([pingPromise, new Promise((_, reject) => setTimeout(() => reject('Timeout'), 3500))]);
 
             if (result) {
-                // console.log(`Uptime for ${ip}:`, result.time);
-                return result.time; // Return the round-trip time if the host is reachable
+                return result.time;
             } else {
-                // console.log(`Retrying for ${ip}...`);
                 retryCount++;
             }
         } catch (error) {
             // console.error(`Uptime for ${ip}:`, error);
-            return 'DOWN'; // Assume the status is down if there is an error
+            return 'DOWN';
         }
     }
 
-    // If max retries are reached and still not successful, consider it as DOWN
     // console.log(`Max retries reached for ${ip}, marking as DOWN`);
     return 'DOWN';
 };
@@ -380,7 +319,6 @@ const checkAndEmitUptime = async () => {
         clearTimeout(webhookTimeout);
     }
     try {
-        // Use Promise.all to execute all checkUptime calls in parallel
         const results = await Promise.all(
             ipStatusData.map(async (entry) => {
                 const { user, ip, status } = entry;
@@ -390,19 +328,15 @@ const checkAndEmitUptime = async () => {
                     return { user, lastStatus, newStatus };
                 } catch (error) {
                     // console.error(`Error checking uptime for ${user}:`, error);
-                    // Return a placeholder value or handle the error as needed
                     return { user, status: 'DOWN' };
                 }
             })
         );
 
-        // Update ipStatusData based on the results
         for (const result of results) {
             const { user, lastStatus, newStatus } = result;
             const entryIndex = ipStatusData.findIndex((e) => e.user === user);
             if (entryIndex !== -1) {
-                // ipStatusData[entryIndex].status = newStatus;
-                // ipStatusData[entryIndex].timestamp = Date.now();
                 currentStatus = ipStatusData[entryIndex].status;
                 if (isNumeric(lastStatus)) {
                     if (newStatus === 'DOWN' && ipStatusData[entryIndex].service !== 'pppoe') {
@@ -427,28 +361,22 @@ const checkAndEmitUptime = async () => {
                 console.error(`Entry not found for user ${user}`);
             }
         }
-        // Emit the result to the connected clients
         io.emit('ipStatus', ipStatusData);
-        // Save the data to the file
         saveDataToFile(ipStatusData);
     } catch (error) {
         console.error('Error checking uptime or updating data:', error);
     }
 };
 
-// Call the function once on startup
 checkAndEmitUptime();
-// Implement logic for checking and emitting IP uptime status
 setInterval(checkAndEmitUptime, 45000);
 
 const PORT = process.env.PORT || 3000;
 
-// Start the server
 server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
 
-// Helper function to read data from the file
 function readDataFile() {
     try {
         const data = fs.readFileSync(dataFilePath, 'utf8');
@@ -469,21 +397,17 @@ function readConfigFile() {
     }
 }
 
-// Helper function to save config data to the file
 function saveConfigToFile(config) {
     try {
         fs.writeFileSync(configFilePath, JSON.stringify(config, null, 2), 'utf8');
-        // console.log('Config saved to file successfully!');
     } catch (error) {
         console.error('Error saving config to file:', error);
     }
 }
 
-// Helper function to save data to the file
 function saveDataToFile(data) {
     try {
         fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), 'utf8');
-        // console.log('Check and emit done... Data saved to file successfully!');
     } catch (error) {
         console.error('Error saving data to file:', error);
     }
@@ -494,6 +418,5 @@ function isNumeric(value) {
 }
 
 function randomDelay(min, max) {
-    // Function to generate a random delay between min and max seconds
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }

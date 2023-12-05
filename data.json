@@ -11,5 +11,31 @@
     "lastcallerid": "-",
     "address": "-",
     "timestamp": 1701238105624
+  },
+  {
+    "user": "stb4",
+    "ip": "192.168.1.254",
+    "service": "pppoe",
+    "status": 1,
+    "phone": "-",
+    "callerid": "78:98:E8:07:93:EC",
+    "lastlogout": "nov 28 2023 00:10:11",
+    "lastdisconnectreason": "nas-request",
+    "lastcallerid": "5C:92:5E:7F:53:20",
+    "address": "-",
+    "timestamp": 1701514934214
+  },
+  {
+    "user": "stb5",
+    "ip": "logout",
+    "service": "pppoe",
+    "status": "DOWN",
+    "phone": "-",
+    "callerid": "78:98:E8:07:93:EC",
+    "lastlogout": "nov 28 2023 00:10:11",
+    "lastdisconnectreason": "nas-request",
+    "lastcallerid": "5C:92:5E:7F:53:20",
+    "address": "-",
+    "timestamp": 1701521977096
   }
 ]

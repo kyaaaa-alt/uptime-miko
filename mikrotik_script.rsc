@@ -17,7 +17,7 @@
 
 :log warning "pppoe $pppuser is login in and reported to uptime miko";
 
-:local url "https://miko.sultankhilove.biz.id/api/updateUserData";
+:local url "https://your-instance/api/updateUserData";
 /tool fetch url=$url mode=http http-method=post http-data=("user=" . $pppuser . "&ip=" . $pppip . "&service=" . $pppservice . "&phone=" . $clientphone . "&callerid=" . $pppcallerid . "&lastlogout=" . $ppplastlogout . "&lastdisconnectreason=" . $ppplastdisconnectreason . "&lastpppcallerid=" . $ppplastpppcallerid . "&address=" . $clientaddress) http-header="Content-Type: application/x-www-form-urlencoded" keep-result=no;
 
 
@@ -39,7 +39,7 @@
 
 :log warning "pppoe $pppuser is logout and reported to uptime miko";
 
-:local url "https://miko.sultankhilove.biz.id/api/updateUserData";
+:local url "https://your-instance/api/updateUserData";
 /tool fetch url=$url mode=http http-method=post http-data=("user=" . $pppuser . "&ip=" . $pppip . "&service=" . $pppservice . "&phone=" . $clientphone . "&callerid=" . $pppcallerid . "&lastlogout=" . $ppplastlogout . "&lastdisconnectreason=" . $ppplastdisconnectreason . "&lastpppcallerid=" . $ppplastpppcallerid . "&address=" . $clientaddress) http-header="Content-Type: application/x-www-form-urlencoded" keep-result=no;
 
 
